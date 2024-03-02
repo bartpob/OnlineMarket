@@ -1,0 +1,6 @@
+@OnlineMarket.Api_HostAddress = http://localhost:5145
+
+GET {{OnlineMarket.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
