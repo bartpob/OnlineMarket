@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,7 +14,7 @@ namespace OnlineMarket.Domain.Announcements
         public decimal Price { get; init; } = price;
         public string City { get; init; } = city;
         public AnnoucementStatus Status { get; private set; } = AnnoucementStatus.Waiting;
-        public string Note { get; private set; } = string.Empty;
+        public string Note { get; private set; } = string.Empty!;
 
         public void SetStatus(AnnoucementStatus status)
         {

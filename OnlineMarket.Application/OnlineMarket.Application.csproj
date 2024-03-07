@@ -11,4 +11,17 @@
     <PackageReference Include="MediatR" Version="12.2.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Announcements\AddAnnoucement\" />
+    <Folder Include="Announcements\DeleteAnnoucement\" />
+    <Folder Include="Announcements\EditAnnoucement\" />
+    <Folder Include="Announcements\AcceptAnnoucement\" />
+    <Folder Include="Announcements\RejectAnnoucement\" />
+    <Folder Include="Announcements\ShowAnnouncements\" />
+    <Folder Include="Categories\AddCategory\" />
+    <Folder Include="Categories\EditCategory\" />
+    <Folder Include="Categories\DeleteCategory\" />
+    <Folder Include="Conversation\SendMessage\" />
+  </ItemGroup>
+
 </Project>

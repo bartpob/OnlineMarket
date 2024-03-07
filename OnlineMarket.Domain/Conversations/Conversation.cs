@@ -10,8 +10,9 @@ namespace OnlineMarket.Domain.Conversations
 {
     public sealed class Conversation(Annoucement annoucement, User sender)
     {
-        public Guid Id;
         private List<Message> _messages = new();
+
+        public Guid Id;
         public IReadOnlyCollection<Message> Messages => _messages.AsReadOnly();
         public Annoucement Annoucement { get; init; } = annoucement;
         public User Sender { get; init; } = sender;
