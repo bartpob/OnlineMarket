@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 
 namespace OnlineMarket.Application.Categories.EditCategory
 {
-    public record class EditCategoryCommand(Guid Id, string Name)
+    public sealed record UpdateCategoryCommand(Guid Id, string Name)
         : IRequest<Result>;
+
+    public sealed record EditCategoryCommandRequest(string Name);
 }

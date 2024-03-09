@@ -10,4 +10,6 @@ namespace OnlineMarket.Application.Categories.AddSubcategory
 {
     public sealed record AddSubcategoryCommand(Guid Id, string Name)
         : IRequest<Result>;
+
+    public sealed record AddSubcategoryRequest(string Name);
 }

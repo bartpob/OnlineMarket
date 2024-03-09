@@ -23,5 +23,12 @@ namespace OnlineMarket.Domain.Categories
         {
             this.Name = Name;
         }
+
+        public IEnumerable<Category> GetAllCategories()
+        {
+            return _subCategories
+            .Concat(_subCategories.SelectMany(subCategory => subCategory.GetAllCategories()))
+            .Prepend(this);
+        }
     }
 }

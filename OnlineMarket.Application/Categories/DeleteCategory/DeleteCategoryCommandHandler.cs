@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using OnlineMarket.Application.Categories.Errors;
 using OnlineMarket.Domain.Abstractions.Result;
 using OnlineMarket.Domain.Categories;
 using System;
@@ -14,13 +15,12 @@ namespace OnlineMarket.Application.Categories.DeleteCategory
     {
         public async Task<Result> Handle(DeleteCategoryCommand request, CancellationToken cancellationToken)
         {
-            var categoryRequest = await _categoryRepository.GetByIdAsync(request.Id);
+            if(await _categoryRepository.GetByIdAsync(request.Id) == null)
+            {
+                return Result.Failure(CategoryErrors.CategoryNotExists);
+            }
 
-            if (categoryRequest.IsFailure) return categoryRequest;
-
-            var result = await _categoryRepository.RemoveAsync(request.Id);
-
-            if (!result.IsFailure) return result;
+            await _categoryRepository.RemoveAsync(request.Id);
 
             return Result.Succeeded();
         }

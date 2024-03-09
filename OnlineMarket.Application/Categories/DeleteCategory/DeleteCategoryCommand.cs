@@ -8,6 +8,6 @@ using System.Threading.Tasks;
 
 namespace OnlineMarket.Application.Categories.DeleteCategory
 {
-    public record DeleteCategoryCommand(Guid Id)
+    public sealed record DeleteCategoryCommand(Guid Id)
         : IRequest<Result>;
 }

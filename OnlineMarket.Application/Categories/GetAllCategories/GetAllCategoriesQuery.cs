@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 
 namespace OnlineMarket.Application.Categories.GetAllCategories
 {
-    public record class GetAllCategoriesQuery
-        : IRequest<Result<IEnumerable<Category>>>;
+    public sealed record GetAllCategoriesQuery
+        : IRequest<Result<IEnumerable<CategoryResponse>>>;
+
+    public sealed record CategoryResponse(Guid Id, string Name, IEnumerable<CategoryResponse> SubCategories);
 }

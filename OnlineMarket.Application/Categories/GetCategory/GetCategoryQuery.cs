@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using OnlineMarket.Application.Categories.GetAllCategories;
 using OnlineMarket.Domain.Abstractions.Result;
 using OnlineMarket.Domain.Categories;
 using System;
@@ -9,6 +10,6 @@ using System.Threading.Tasks;
 
 namespace OnlineMarket.Application.Categories.GetCategory
 {
-    public record class GetCategoryQuery(Guid Id)
-        : IRequest<Result<Category>>;
+    public sealed record class GetCategoryQuery(Guid Id)
+        : IRequest<Result<CategoryResponse>>;
 }

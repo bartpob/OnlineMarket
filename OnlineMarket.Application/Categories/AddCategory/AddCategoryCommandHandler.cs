@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using OnlineMarket.Application.Categories.Errors;
 using OnlineMarket.Domain.Abstractions.Result;
 using OnlineMarket.Domain.Categories;
 using System;
@@ -14,10 +15,17 @@ namespace OnlineMarket.Application.Categories.AddCategory
     {
         public async Task<Result> Handle(AddCategoryCommand request, CancellationToken cancellationToken)
         {
-            var result = await _categoryRepository.AddAsync(new Category(request.Name));
+            if(string.IsNullOrEmpty(request.Name))
+            {
+                return Result.Failure(CategoryErrors.EmptyName);
+            }
 
-            if (result.IsFailure)
-                return result;
+            if (await _categoryRepository.GetByNameAsync(request.Name) != null)
+            {
+                return Result.Failure(CategoryErrors.NameTaken);
+            }
+
+            await _categoryRepository.AddAsync(new Category(request.Name));
 
             return Result.Succeeded();
         }

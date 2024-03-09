@@ -8,20 +8,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OnlineMarket.Application.Categories.AddSubcategory
+namespace OnlineMarket.Application.Categories.EditCategory
 {
-    public sealed class AddSubcategoryCommandHandler(ICategoryRepository _categoryRepository)
-        : IRequestHandler<AddSubcategoryCommand, Result>
+    public sealed class UpdateCategoryCommandHandler(ICategoryRepository _categoryRepository)
+        : IRequestHandler<UpdateCategoryCommand, Result>
     {
-        public async Task<Result> Handle(AddSubcategoryCommand request, CancellationToken cancellationToken)
+        public async Task<Result> Handle(UpdateCategoryCommand request, CancellationToken cancellationToken)
         {
-            var category = await _categoryRepository.GetByIdAsync(request.Id);
-
-            if (category == null)
-            {
-                return Result.Failure(CategoryErrors.CategoryNotExists);
-            }
-
             if (string.IsNullOrEmpty(request.Name))
             {
                 return Result.Failure(CategoryErrors.EmptyName);
@@ -32,7 +25,14 @@ namespace OnlineMarket.Application.Categories.AddSubcategory
                 return Result.Failure(CategoryErrors.NameTaken);
             }
 
-            category.AddCategory(new Category(request.Name));
+            var category = await _categoryRepository.GetByIdAsync(request.Id);
+
+            if (category == null)
+            {
+                return Result.Failure(CategoryErrors.CategoryNotExists);
+            }
+
+            category.Update(request.Name);
 
             await _categoryRepository.UpdateAsync(category);
 

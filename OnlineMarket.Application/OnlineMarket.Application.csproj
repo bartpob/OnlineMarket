@@ -18,10 +18,11 @@
     <Folder Include="Announcements\AcceptAnnoucement\" />
     <Folder Include="Announcements\RejectAnnoucement\" />
     <Folder Include="Announcements\ShowAnnouncements\" />
-    <Folder Include="Categories\AddCategory\" />
-    <Folder Include="Categories\EditCategory\" />
-    <Folder Include="Categories\DeleteCategory\" />
     <Folder Include="Conversation\SendMessage\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\OnlineMarket.Domain\OnlineMarket.Domain.csproj" />
   </ItemGroup>
 
 </Project>

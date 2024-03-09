@@ -10,10 +10,11 @@ namespace OnlineMarket.Domain.Categories
 {
     public interface ICategoryRepository
     {
-        public Task<Result> AddAsync(Category category);
-        public Task<Result> UpdateAsync(Category category);
-        public Task<Result> RemoveAsync(Guid Id);
-        public Task<Result<IEnumerable<Category>>> GetAllAsync();
-        public Task<Result<Category>> GetByIdAsync(Guid id);
+        public Task AddAsync(Category category);
+        public Task UpdateAsync(Category category);
+        public Task RemoveAsync(Guid Id);
+        public Task<IEnumerable<Category>> GetAllAsync();
+        public Task<Category?> GetByIdAsync(Guid Id);
+        public Task<Category?> GetByNameAsync(string Name);
     }
 }
