@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using OnlineMarket.Application.Categories.Errors;
+using OnlineMarket.Domain.DomainErrors.CategoryErrors;
 using OnlineMarket.Application.Categories.GetAllCategories;
 using OnlineMarket.Domain.Abstractions.Result;
 using OnlineMarket.Domain.Categories;

@@ -18,6 +18,7 @@
     <Folder Include="Announcements\AcceptAnnoucement\" />
     <Folder Include="Announcements\RejectAnnoucement\" />
     <Folder Include="Announcements\ShowAnnouncements\" />
+    <Folder Include="Categories\Errors\" />
     <Folder Include="Conversation\SendMessage\" />
   </ItemGroup>
 
