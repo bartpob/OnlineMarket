@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OnlineMarket.Domain.Announcements
 {
-    public enum AnnoucementStatus
+    public enum AnnouncementStatus
     {
         Waiting,
         Accepted,

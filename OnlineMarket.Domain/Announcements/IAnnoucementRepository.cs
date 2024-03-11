@@ -10,11 +10,11 @@ namespace OnlineMarket.Domain.Announcements
 {
     public interface IAnnoucementRepository
     {
-        public Task<Result> AddAsync(Annoucement annoucement);
-        public Task<Result> UpdateAsync(Annoucement annoucement);
-        public Task<Result> RemoveAsync();
-        public Task<Result<IEnumerable<Annoucement>>> GetAllAsync();
-        public Task<Result<Annoucement>> GetAsync(Guid id);
+        public Task AddAsync(Announcement annoucement);
+        public Task UpdateAsync(Announcement annoucement);
+        public Task RemoveAsync(Guid Id);
+        public Task<IEnumerable<Announcement>> GetAllAsync();
+        public Task<Announcement> GetByIdAsync(Guid id);
 
     }
 }
