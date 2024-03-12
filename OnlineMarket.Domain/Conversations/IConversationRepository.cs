@@ -10,10 +10,9 @@ namespace OnlineMarket.Domain.Conversations
 {
     public interface IConversationRepository
     {
-        public Task<Result> AddAsync(Conversation annoucement);
-        public Task<Result> UpdateAsync(Conversation annoucement);
-        public Task<Result> RemoveAsync();
-        public Task<Result<IEnumerable<Conversation>>> GetAllAsync();
-        public Task<Result<Conversation>> GetAsync(Guid id);
+        public Task AddAsync(Conversation annoucement);
+        public Task UpdateAsync(Conversation annoucement);
+        public Task<IEnumerable<Conversation>> GetAllByUserIdAsync(Guid UserId);
+        public Task<Conversation> GetAsync(Guid id);
     }
 }

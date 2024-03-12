@@ -7,5 +7,5 @@ using System.Threading.Tasks;
 
 namespace OnlineMarket.Domain.Conversations
 {
-    public sealed record Message(Guid Id, DateTime Date, string Text, User User);
+    public sealed record Message(DateTime Date, string Text, User Sender);
 }
