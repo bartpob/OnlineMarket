@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace OnlineMarket.Application.Conversations.GetConversation
 {
-    public sealed record GetConversationQuery
+    public sealed record GetConversationQuery(Guid ConversationId, Guid UserId)
         : IRequest<Result<ConversationResponse>>;
 
     public sealed record MessageResponse(bool Outgoing, DateTime MessageDate, string Text);

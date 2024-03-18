@@ -13,6 +13,6 @@ namespace OnlineMarket.Domain.Conversations
         public Task AddAsync(Conversation annoucement);
         public Task UpdateAsync(Conversation annoucement);
         public Task<IEnumerable<Conversation>> GetAllByUserIdAsync(Guid UserId);
-        public Task<Conversation> GetAsync(Guid id);
+        public Task<Conversation> GetByIdAsync(Guid id);
     }
 }
