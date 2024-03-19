@@ -8,13 +8,23 @@ using System.Threading.Tasks;
 
 namespace OnlineMarket.Domain.Announcements
 {
-    public sealed class Announcement(User user, string description, decimal price, string city)
+    public sealed class Announcement
     {
+        public Announcement() { }
+        public Announcement(User user, string description, decimal price, string city)
+        {
+            User = user;
+            Description = description;
+            Price = price;
+            City = city;
+        }
+
+
         public Guid Id { get; private set; }
-        public User User { get; private set; } = user;
-        public string Description { get; private set; } = description;
-        public decimal Price { get; private set; } = price;
-        public string City { get; private set; } = city;
+        public User User { get; private set; }
+        public string Description { get; private set; }
+        public decimal Price { get; private set; }
+        public string City { get; private set; }
         public AnnouncementStatus Status { get; private set; } = AnnouncementStatus.Waiting;
         public string Note { get; private set; } = string.Empty!;
 

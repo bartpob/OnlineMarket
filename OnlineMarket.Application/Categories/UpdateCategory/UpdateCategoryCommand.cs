@@ -11,5 +11,5 @@ namespace OnlineMarket.Application.Categories.EditCategory
     public sealed record UpdateCategoryCommand(Guid Id, string Name)
         : IRequest<Result>;
 
-    public sealed record EditCategoryCommandRequest(string Name);
+    public sealed record UpdateCategoryCommandRequest(string Name);
 }

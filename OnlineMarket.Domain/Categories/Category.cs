@@ -10,7 +10,7 @@ namespace OnlineMarket.Domain.Categories
     public sealed class Category(string Name)
     {
         private readonly List<Category> _subCategories = new();
-        public Guid Id { get; init; } = Guid.NewGuid();
+        public Guid Id { get; private set; } = Guid.NewGuid();
         public string Name { get; private set; } = Name;
 
         public IReadOnlyCollection<Category> SubCategories => _subCategories.AsReadOnly();

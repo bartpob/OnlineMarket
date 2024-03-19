@@ -8,14 +8,22 @@ using System.Threading.Tasks;
 
 namespace OnlineMarket.Domain.Conversations
 {
-    public sealed class Conversation(Announcement announcement, User sender)
+    public sealed class Conversation
     {
         private List<Message> _messages = new();
 
-        public Guid Id;
+        public Conversation() { }
+
+        public Conversation(Announcement announcement, User sender)
+        {
+            Announcement = announcement;
+            Sender = sender;
+        }
+
+        public Guid Id { get; private set; } = Guid.NewGuid();
         public IReadOnlyCollection<Message> Messages => _messages.AsReadOnly();
-        public Announcement Announcement { get; private set; } = announcement;
-        public User Sender { get; private set; } = sender;
+        public Announcement Announcement { get; private set; }
+        public User Sender { get; private set; }
         public void SendMessage(Message message) => _messages.Add(message);
     }
 }
