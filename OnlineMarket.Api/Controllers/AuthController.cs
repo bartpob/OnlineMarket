@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using OnlineMarket.Domain.Abstractions.Result;
+using OnlineMarket.Infrastructure.Identity.LoginUser;
 using OnlineMarket.Infrastructure.Identity.RegisterUser;
 
 namespace OnlineMarket.Api.Controllers
@@ -24,6 +25,20 @@ namespace OnlineMarket.Api.Controllers
             }
 
             return Ok();
+        }
+
+        [HttpPost]
+        [Route("Login")]
+        public async Task<ActionResult<LoginUserResponse>> Login(LoginUserCommand loginCommand)
+        {
+            var result = await _mediator.Send(loginCommand);
+
+            if(result.IsFailure)
+            {
+                return Unauthorized(result.Error);
+            }
+
+            return Accepted(result.Body);
         }
     }
 }

@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace OnlineMarket.Infrastructure.Identity.RegisterUser
 {
-    public class RegisterUserCommandHandler(UserManager<User> _userManager)
+    public sealed class RegisterUserCommandHandler(UserManager<User> _userManager)
         : IRequestHandler<RegisterUserCommand, Result>
     {
         public async Task<Result> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
