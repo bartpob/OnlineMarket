@@ -1,7 +1,9 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using OnlineMarket.Domain.Abstractions.Result;
 using OnlineMarket.Domain.Users;
+using OnlineMarket.Infrastructure.Authentication;
 using OnlineMarket.Infrastructure.InfrastructureErrors.IdentityErrors;
 using System;
 using System.Collections.Generic;
@@ -11,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace OnlineMarket.Infrastructure.Identity.LoginUser
 {
-    public sealed class LoginUserCommandHandler(UserManager<User> _userManager)
+    public sealed class LoginUserCommandHandler(UserManager<User> _userManager, Authentication.IAuthenticationService _authService)
         : IRequestHandler<LoginUserCommand, Result<LoginUserResponse>>
     {
         public async Task<Result<LoginUserResponse>> Handle(LoginUserCommand request, CancellationToken cancellationToken)
@@ -30,7 +32,9 @@ namespace OnlineMarket.Infrastructure.Identity.LoginUser
                 return Result<LoginUserResponse>.Failure(IdentityErrors.WrongPassword);
             }
 
-            var response = new LoginUserResponse(request.Email, request.Email);
+            var token = await _authService.GenerateTokenAsync(user);
+
+            var response = new LoginUserResponse(request.Email, token);
 
             return Result<LoginUserResponse>.Succeeded(response);
         }

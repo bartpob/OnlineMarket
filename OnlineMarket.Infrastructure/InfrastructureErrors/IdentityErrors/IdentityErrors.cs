@@ -14,6 +14,5 @@ namespace OnlineMarket.Infrastructure.InfrastructureErrors.IdentityErrors
         public static readonly Error InvalidPassword = new Error("INVALID_PASSWORD", "Password is invalid.");
         public static readonly Error WrongPassword = new Error("WRONG_PASSWORD", "password is wrong");
         public static readonly Error EmailNotExists = new Error("EMAIL_NOT_EXSITS", "Given email doesn't exist");
-        dasdad'salknm
     }
 }

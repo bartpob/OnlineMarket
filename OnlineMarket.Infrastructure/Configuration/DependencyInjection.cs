@@ -1,11 +1,14 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using OnlineMarket.Domain.Announcements;
 using OnlineMarket.Domain.Categories;
 using OnlineMarket.Domain.Conversations;
 using OnlineMarket.Domain.Users;
+using OnlineMarket.Infrastructure.Authentication;
 using OnlineMarket.Infrastructure.Persistence;
 using OnlineMarket.Infrastructure.Persistence.Repositories;
 using System;
@@ -29,6 +32,8 @@ namespace OnlineMarket.Infrastructure.Configuration
             services.AddSingleton<IAnnoucementRepository, TemporaryHandler>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddSingleton<IUserRepository, TemporaryHandler>();
+
+            services.ConfigureAuthentication(configuration);
 
             services.ConfigureMediatR();
 
@@ -57,6 +62,32 @@ namespace OnlineMarket.Infrastructure.Configuration
             services.AddMediatR(options =>
             {
                 options.RegisterServicesFromAssembly(assembly);
+            });
+
+            return services;
+        }
+        
+        private static IServiceCollection ConfigureAuthentication(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddTransient<IAuthenticationService, AuthenticationService>();
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ClockSkew = TimeSpan.Zero,
+                    ValidIssuer = configuration["JwtSettings:Issuer"],
+                    ValidAudience = configuration["JwtSettings:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JwtSettings:Key"]!))
+                };
             });
 
             return services;
