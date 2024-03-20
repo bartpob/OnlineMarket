@@ -23,4 +23,8 @@
     <ProjectReference Include="..\OnlineMarket.Application\OnlineMarket.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Identity\LoginUser\" />
+  </ItemGroup>
+
 </Project>

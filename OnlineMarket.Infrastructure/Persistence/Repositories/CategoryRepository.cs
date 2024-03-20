@@ -19,7 +19,9 @@ namespace OnlineMarket.Infrastructure.Persistence.Repositories
 
         public async Task<IEnumerable<Category>> GetAllAsync()
         {
-            return await _dbContext.Categories.ToListAsync();
+            var categories = await _dbContext.Categories.ToListAsync();
+
+            return categories.Where(c => _dbContext.Entry(c).Property("CategoryId").CurrentValue == null).ToList();
         }
 
         public async Task<Category?> GetByIdAsync(Guid Id)
@@ -44,6 +46,7 @@ namespace OnlineMarket.Infrastructure.Persistence.Repositories
         public async Task UpdateAsync(Category category)
         {
             _dbContext.Entry(category).State = EntityState.Modified;
+
             foreach(var item in category.SubCategories)
             {
                 _dbContext.Entry(item).State = EntityState.Added;

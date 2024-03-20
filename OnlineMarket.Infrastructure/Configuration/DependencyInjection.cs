@@ -30,6 +30,9 @@ namespace OnlineMarket.Infrastructure.Configuration
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddSingleton<IUserRepository, TemporaryHandler>();
 
+            services.ConfigureMediatR();
+
+
             return services;
         }
 
@@ -42,6 +45,19 @@ namespace OnlineMarket.Infrastructure.Configuration
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<OnlineMarketDbContext>();
 
+
+            return services;
+        }
+
+
+        private static IServiceCollection ConfigureMediatR(this IServiceCollection services)
+        {
+            var assembly = typeof(DependencyInjection).Assembly;
+
+            services.AddMediatR(options =>
+            {
+                options.RegisterServicesFromAssembly(assembly);
+            });
 
             return services;
         }

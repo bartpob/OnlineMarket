@@ -53,7 +53,7 @@ namespace OnlineMarket.Api.Controllers
                 return BadRequest(result.Error);
             }
 
-            return Ok(result);
+            return Ok();
         }
 
         [HttpPost("{Id}")]
@@ -66,7 +66,7 @@ namespace OnlineMarket.Api.Controllers
                 return BadRequest(result.Error);
             }
 
-            return Ok(result);
+            return Ok();
         }
 
         [HttpDelete]
@@ -79,7 +79,7 @@ namespace OnlineMarket.Api.Controllers
                 return BadRequest(result.Error);
             }
 
-            return Ok(result);
+            return Ok();
         }
 
         [HttpPut("{Id}")]
@@ -92,7 +92,7 @@ namespace OnlineMarket.Api.Controllers
                 return BadRequest(result.Error);
             }
 
-            return Ok(result);
+            return Ok();
         }
           
     }

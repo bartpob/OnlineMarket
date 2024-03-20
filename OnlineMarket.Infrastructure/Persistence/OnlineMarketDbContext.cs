@@ -30,6 +30,10 @@ namespace OnlineMarket.Infrastructure.Persistence
                 .Property(a => a.Price)
                 .HasColumnType("DECIMAL(10,2)");
 
+            builder.Entity<User>()
+                .Property(u => u.City)
+                .IsRequired(false);
+
             base.OnModelCreating(builder);
 
             OnModelCreatingPartial(builder);
