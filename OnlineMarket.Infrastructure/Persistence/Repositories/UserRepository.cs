@@ -1,4 +1,5 @@
-﻿using OnlineMarket.Domain.Users;
+﻿using Microsoft.EntityFrameworkCore;
+using OnlineMarket.Domain.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace OnlineMarket.Infrastructure.Persistence.Repositories
 {
-    public class UserRepository
+    public class UserRepository(OnlineMarketDbContext _dbContext)
         : IUserRepository
     {
-        public Task<User> GetById(Guid Id)
+        public async Task<User> GetById(Guid Id)
         {
-            throw new NotImplementedException();
+            return await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == Id.ToString());
         }
     }
 }

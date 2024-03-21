@@ -16,7 +16,7 @@ namespace OnlineMarket.Application.Announcements.GetAllAnnouncements
         {
             var announcements = await _announcementRepository.GetAllAsync();
 
-            return Result<IEnumerable<AnnouncementResponse>>.Succeeded(ToAnnouncementResponse(announcements));
+            return Result<IEnumerable<AnnouncementResponse>>.Succeeded(ToAnnouncementResponse(announcements.Where(a => a.Status == AnnouncementStatus.Accepted)));
         }
 
         private IEnumerable<AnnouncementResponse> ToAnnouncementResponse(IEnumerable<Announcement> announcements)

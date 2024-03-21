@@ -1,4 +1,6 @@
-﻿using OnlineMarket.Domain.Announcements;
+﻿using Microsoft.EntityFrameworkCore;
+using OnlineMarket.Domain.Announcements;
+using OnlineMarket.Domain.Categories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,32 +9,38 @@ using System.Threading.Tasks;
 
 namespace OnlineMarket.Infrastructure.Persistence.Repositories
 {
-    public class AnnouncementRepository
+    public class AnnouncementRepository(OnlineMarketDbContext _dbContext)
         : IAnnoucementRepository
     {
-        public Task AddAsync(Announcement annoucement)
+        public async Task AddAsync(Announcement announcement)
         {
-            throw new NotImplementedException();
+            await _dbContext.Announcements.AddAsync(announcement);
         }
 
-        public Task<IEnumerable<Announcement>> GetAllAsync()
+        public async Task<IEnumerable<Announcement>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return await _dbContext.Announcements.ToListAsync();
         }
 
-        public Task<Announcement> GetByIdAsync(Guid id)
+        public async Task<Announcement> GetByIdAsync(Guid id)
         {
-            throw new NotImplementedException();
+            return await _dbContext.Announcements.FirstOrDefaultAsync(a => a.Id == id);
         }
 
-        public Task RemoveAsync(Guid Id)
+        public async Task RemoveAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var announcement = await GetByIdAsync(id);
+
+            _dbContext.Announcements.Remove(announcement);
+
+            await _dbContext.SaveChangesAsync();
         }
 
-        public Task UpdateAsync(Announcement annoucement)
+        public async Task UpdateAsync(Announcement announcement)
         {
-            throw new NotImplementedException();
+            _dbContext.Entry(announcement).State = EntityState.Modified;
+
+            await _dbContext.SaveChangesAsync();
         }
     }
 }

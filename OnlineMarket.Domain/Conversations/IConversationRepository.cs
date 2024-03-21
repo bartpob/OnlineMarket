@@ -10,8 +10,8 @@ namespace OnlineMarket.Domain.Conversations
 {
     public interface IConversationRepository
     {
-        public Task AddAsync(Conversation annoucement);
-        public Task UpdateAsync(Conversation annoucement);
+        public Task AddAsync(Conversation conversation);
+        public Task UpdateAsync(Conversation conversation);
         public Task<IEnumerable<Conversation>> GetAllByUserIdAsync(Guid UserId);
         public Task<Conversation> GetByIdAsync(Guid id);
     }

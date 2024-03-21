@@ -1,4 +1,6 @@
-﻿using OnlineMarket.Domain.Conversations;
+﻿using Microsoft.EntityFrameworkCore;
+using OnlineMarket.Domain.Categories;
+using OnlineMarket.Domain.Conversations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,27 +9,33 @@ using System.Threading.Tasks;
 
 namespace OnlineMarket.Infrastructure.Persistence.Repositories
 {
-    public class ConversationRepository
+    public class ConversationRepository(OnlineMarketDbContext _dbContext)
         : IConversationRepository
     {
-        public Task AddAsync(Conversation annoucement)
+        public async Task AddAsync(Conversation conversation)
         {
-            throw new NotImplementedException();
+            await _dbContext.Conversations.AddAsync(conversation);
         }
 
-        public Task<IEnumerable<Conversation>> GetAllByUserIdAsync(Guid UserId)
+        public async Task<IEnumerable<Conversation>> GetAllByUserIdAsync(Guid UserId)
         {
-            throw new NotImplementedException();
+            return await _dbContext.Conversations.Where(c => c.Sender.Id == UserId.ToString() || c.Announcement.User.Id == UserId.ToString()).ToListAsync();
         }
 
-        public Task<Conversation> GetByIdAsync(Guid id)
+        public async Task<Conversation> GetByIdAsync(Guid id)
         {
-            throw new NotImplementedException();
+            return await _dbContext.Conversations.FirstOrDefaultAsync(a => a.Id == id);
         }
 
-        public Task UpdateAsync(Conversation annoucement)
+        public async Task UpdateAsync(Conversation conversation)
         {
-            throw new NotImplementedException();
+            _dbContext.Entry(conversation).State = EntityState.Modified;
+
+            foreach (var item in conversation.Messages)
+            {
+                _dbContext.Entry(item).State = EntityState.Added;
+            }
+            await _dbContext.SaveChangesAsync();
         }
     }
 }
