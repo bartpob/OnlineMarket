@@ -24,6 +24,7 @@ namespace OnlineMarket.Application.Announcements.GetAllAnnouncements
             return announcements.Select(a => new AnnouncementResponse(
                 a.Id,
                 Guid.Parse(a.User.Id),
+                a.AnnouncementCategory.Name,
                 a.Description,
                 a.Price,
                 a.City,

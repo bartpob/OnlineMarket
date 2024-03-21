@@ -1,4 +1,5 @@
-﻿using OnlineMarket.Domain.Users;
+﻿using OnlineMarket.Domain.Categories;
+using OnlineMarket.Domain.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,17 +12,19 @@ namespace OnlineMarket.Domain.Announcements
     public sealed class Announcement
     {
         public Announcement() { }
-        public Announcement(User user, string description, decimal price, string city)
+        public Announcement(User user, Category category, string description, decimal price, string city)
         {
             User = user;
             Description = description;
             Price = price;
             City = city;
+            AnnouncementCategory = category;
         }
 
 
         public Guid Id { get; private set; }
         public User User { get; private set; }
+        public Category AnnouncementCategory { get; private set; }
         public string Description { get; private set; }
         public decimal Price { get; private set; }
         public string City { get; private set; }
@@ -33,16 +36,17 @@ namespace OnlineMarket.Domain.Announcements
             Status = status;
         }
 
-        public void SetNote(string? note)
+        public void SetNote(string note)
         {
-            Note = note;
+            Note = note;    
         }
 
-        public void Update(string description, decimal price, string city)
+        public void Update(string description, Category category, decimal price, string city)
         {
             Description = description;
             Price = price;
             City = city;
+            AnnouncementCategory = category;
         }
        
     }

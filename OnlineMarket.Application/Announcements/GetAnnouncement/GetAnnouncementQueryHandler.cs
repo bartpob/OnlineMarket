@@ -32,6 +32,7 @@ namespace OnlineMarket.Application.Announcements.GetAnnouncement
             return new AnnouncementResponse(
                 announcement.Id,
                 Guid.Parse(announcement.User.Id),
+                announcement.AnnouncementCategory.Name,
                 announcement.Description,
                 announcement.Price,
                 announcement.City,

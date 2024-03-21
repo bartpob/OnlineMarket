@@ -8,6 +8,6 @@ using System.Threading.Tasks;
 
 namespace OnlineMarket.Application.Announcements.EditAnnoucement
 {
-    public sealed record EditAnnouncementCommand(Guid Id, Guid UserId, string Description, decimal Price, string City)
+    public sealed record EditAnnouncementCommand(Guid Id, Guid UserId, Guid CategoryId, string Description, decimal Price, string City)
         : IRequest<Result>;
 }
