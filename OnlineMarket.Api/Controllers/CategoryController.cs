@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Client;
@@ -8,6 +9,7 @@ using OnlineMarket.Application.Categories.DeleteCategory;
 using OnlineMarket.Application.Categories.EditCategory;
 using OnlineMarket.Application.Categories.GetAllCategories;
 using OnlineMarket.Application.Categories.GetCategory;
+using OnlineMarket.Domain.Users;
 
 namespace OnlineMarket.Api.Controllers
 {
@@ -44,6 +46,7 @@ namespace OnlineMarket.Api.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = Roles.Moderator)]
         public async Task<ActionResult> CreateCategory(AddCategoryCommand command)
         {
             var result = await _mediator.Send(command);
@@ -57,6 +60,7 @@ namespace OnlineMarket.Api.Controllers
         }
 
         [HttpPost("{Id}")]
+        [Authorize(Roles = Roles.Moderator)]
         public async Task<ActionResult> CreateSubCategory(Guid Id, AddSubcategoryRequest request)
         {
             var result = await _mediator.Send(new AddSubcategoryCommand(Id, request.Name));
@@ -70,6 +74,7 @@ namespace OnlineMarket.Api.Controllers
         }
 
         [HttpDelete]
+        [Authorize(Roles = Roles.Moderator)]
         public async Task<ActionResult> DeleteCategory(Guid Id)
         {
             var result = await _mediator.Send(new DeleteCategoryCommand(Id));
@@ -83,6 +88,7 @@ namespace OnlineMarket.Api.Controllers
         }
 
         [HttpPut("{Id}")]
+        [Authorize(Roles = Roles.Moderator)]
         public async Task<ActionResult> UpdateCategory(Guid Id, UpdateCategoryCommandRequest request)
         {
             var result = await _mediator.Send(new UpdateCategoryCommand(Id, request.Name));

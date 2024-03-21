@@ -21,7 +21,7 @@ namespace OnlineMarket.Api.Controllers
 
             if(result.IsFailure)
             {
-                return BadRequest(result);
+                return BadRequest(result.Error);
             }
 
             return Ok();

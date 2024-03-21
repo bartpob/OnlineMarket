@@ -24,6 +24,8 @@ namespace OnlineMarket.Infrastructure.Identity.RegisterUser
 
             var result = await _userManager.CreateAsync(user, request.Password);
 
+            var res = await _userManager.AddToRoleAsync(user, Roles.RegularUser);
+
             if(!result.Succeeded)
             {
                 foreach(var error in result.Errors)
