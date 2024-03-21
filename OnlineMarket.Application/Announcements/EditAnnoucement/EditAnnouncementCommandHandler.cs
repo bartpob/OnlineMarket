@@ -4,6 +4,7 @@ using OnlineMarket.Domain.Announcements;
 using OnlineMarket.Domain.Categories;
 using OnlineMarket.Domain.DomainErrors.AnnouncementError;
 using OnlineMarket.Domain.DomainErrors.CategoryErrors;
+using OnlineMarket.Domain.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,8 @@ using System.Threading.Tasks;
 
 namespace OnlineMarket.Application.Announcements.EditAnnoucement
 {
-    public sealed class EditAnnouncementCommandHandler(IAnnoucementRepository _announcementRepository, ICategoryRepository _categoryRepository)
+    public sealed class EditAnnouncementCommandHandler(IAnnoucementRepository _announcementRepository, 
+        ICategoryRepository _categoryRepository)
         : IRequestHandler<EditAnnouncementCommand, Result>
     {
         public async Task<Result> Handle(EditAnnouncementCommand request, CancellationToken cancellationToken)
@@ -22,6 +24,16 @@ namespace OnlineMarket.Application.Announcements.EditAnnoucement
             if (announcement == null)
             {
                 return Result.Failure(AnnouncementError.AnnouncementNotExists);
+            }
+
+            if(announcement.Id != request.UserId)
+            {
+                return Result.Failure(AnnouncementError.TriedEditForeignAnnouncement);
+            }
+
+            if(announcement.Status == AnnouncementStatus.Rejected)
+            {
+                return Result.Failure(AnnouncementError.TriedEditInactiveAnnouncement);
             }
 
             if (string.IsNullOrEmpty(request.Description) || string.IsNullOrEmpty(request.City) || request.Price <= 0)

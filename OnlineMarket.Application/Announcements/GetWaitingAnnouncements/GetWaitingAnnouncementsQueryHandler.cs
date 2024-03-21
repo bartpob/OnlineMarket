@@ -10,10 +10,10 @@ using System.Threading.Tasks;
 
 namespace OnlineMarket.Application.Announcements.GetWaitingAnnouncements
 {
-    public sealed class GetWaitingAnnouncementsCommandHandler(IAnnoucementRepository _announcementRepository)
-        : IRequestHandler<GetWaitingAnnouncementsCommand, Result<IEnumerable<AnnouncementResponse>>>
+    public sealed class GetWaitingAnnouncementsQueryHandler(IAnnoucementRepository _announcementRepository)
+        : IRequestHandler<GetWaitingAnnouncementsQuery, Result<IEnumerable<AnnouncementResponse>>>
     {
-        public async Task<Result<IEnumerable<AnnouncementResponse>>> Handle(GetWaitingAnnouncementsCommand request, CancellationToken cancellationToken)
+        public async Task<Result<IEnumerable<AnnouncementResponse>>> Handle(GetWaitingAnnouncementsQuery request, CancellationToken cancellationToken)
         {
             var announcements = await _announcementRepository.GetAllAsync();
 

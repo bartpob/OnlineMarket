@@ -28,10 +28,10 @@ namespace OnlineMarket.Infrastructure.Configuration
             services.AddDbContext<OnlineMarketDbContext>(options => options.UseSqlServer(connectionString));
             services.AddIdentity();
 
-            services.AddSingleton<IConversationRepository, ConversationRepository>();
-            services.AddSingleton<IAnnoucementRepository, AnnouncementRepository>();
+            services.AddScoped<IConversationRepository, ConversationRepository>();
+            services.AddScoped<IAnnoucementRepository, AnnouncementRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
-            services.AddSingleton<IUserRepository, UserRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
 
             services.ConfigureAuthentication(configuration);
 

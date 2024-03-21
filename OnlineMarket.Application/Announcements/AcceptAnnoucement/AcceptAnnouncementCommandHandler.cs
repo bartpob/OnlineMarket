@@ -22,6 +22,11 @@ namespace OnlineMarket.Application.Announcements.AcceptAnnoucement
                 return Result.Failure(AnnouncementError.AnnouncementNotExists);
             }
 
+            if (announcement.Status != AnnouncementStatus.Waiting)
+            {
+                return Result.Failure(AnnouncementError.TriedVerifyWrongAnnouncement);
+            }
+
             announcement.SetStatus(AnnouncementStatus.Accepted);
 
             await _announcementRepository.UpdateAsync(announcement);

@@ -15,16 +15,24 @@ namespace OnlineMarket.Infrastructure.Persistence.Repositories
         public async Task AddAsync(Announcement announcement)
         {
             await _dbContext.Announcements.AddAsync(announcement);
+
+            await _dbContext.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<Announcement>> GetAllAsync()
         {
-            return await _dbContext.Announcements.ToListAsync();
+            return await _dbContext.Announcements
+                .Include(a => a.User)
+                .Include(a => a.AnnouncementCategory)
+                .ToListAsync();
         }
 
         public async Task<Announcement> GetByIdAsync(Guid id)
         {
-            return await _dbContext.Announcements.FirstOrDefaultAsync(a => a.Id == id);
+            return await _dbContext.Announcements
+                .Include(a => a.User)
+                .Include(a => a.AnnouncementCategory)
+                .FirstOrDefaultAsync(a => a.Id == id);
         }
 
         public async Task RemoveAsync(Guid id)

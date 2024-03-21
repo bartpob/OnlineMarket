@@ -22,6 +22,11 @@ namespace OnlineMarket.Application.Announcements.RejectAnnoucement
                 return Result.Failure(AnnouncementError.AnnouncementNotExists);
             }
 
+            if(announcement.Status != AnnouncementStatus.Waiting)
+            {
+                return Result.Failure(AnnouncementError.TriedVerifyWrongAnnouncement);
+            }
+
             announcement.SetStatus(AnnouncementStatus.Rejected);
             announcement.SetNote(request.Note);
 

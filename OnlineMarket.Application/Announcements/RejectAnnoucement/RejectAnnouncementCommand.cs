@@ -11,4 +11,6 @@ namespace OnlineMarket.Application.Announcements.RejectAnnoucement
 {
     public sealed record RejectAnnouncementCommand(Guid Id, string? Note)
         : IRequest<Result>;
+
+    public sealed record RejectAnnouncementRequest(string? Note);
 }

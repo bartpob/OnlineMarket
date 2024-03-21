@@ -29,14 +29,14 @@ namespace OnlineMarket.Domain.Announcements
         public decimal Price { get; private set; }
         public string City { get; private set; }
         public AnnouncementStatus Status { get; private set; } = AnnouncementStatus.Waiting;
-        public string Note { get; private set; } = string.Empty!;
+        public string? Note { get; private set; } = string.Empty!;
 
         public void SetStatus(AnnouncementStatus status)
         {
             Status = status;
         }
 
-        public void SetNote(string note)
+        public void SetNote(string? note)
         {
             Note = note;    
         }

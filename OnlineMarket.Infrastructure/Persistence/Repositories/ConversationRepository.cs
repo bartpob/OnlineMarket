@@ -15,6 +15,8 @@ namespace OnlineMarket.Infrastructure.Persistence.Repositories
         public async Task AddAsync(Conversation conversation)
         {
             await _dbContext.Conversations.AddAsync(conversation);
+
+            await _dbContext.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<Conversation>> GetAllByUserIdAsync(Guid UserId)

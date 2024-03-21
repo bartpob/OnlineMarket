@@ -27,7 +27,9 @@ namespace OnlineMarket.Application.Announcements.GetUserAnnouncements
 
             var announcements = await _announcementRepository.GetAllAsync();
 
-            var userAnnouncements = announcements.Where(a => a.User.Id == request.UserId.ToString()).ToList();
+            var userAnnouncements = announcements
+                .Where(a => a.User.Id == request.UserId.ToString() && a.Status == AnnouncementStatus.Accepted)
+                .ToList();
 
             return Result<IEnumerable<AnnouncementResponse>>.Succeeded(ToAnnouncementResponse(userAnnouncements));
         }

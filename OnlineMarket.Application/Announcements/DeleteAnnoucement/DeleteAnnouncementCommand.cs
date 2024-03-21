@@ -8,6 +8,6 @@ using System.Threading.Tasks;
 
 namespace OnlineMarket.Application.Announcements.DeleteAnnoucement
 {
-    public sealed record DeleteAnnouncementCommand(Guid Id)
+    public sealed record DeleteAnnouncementCommand(Guid userId, Guid Id)
         : IRequest<Result>;
 }

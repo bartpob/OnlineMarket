@@ -9,6 +9,6 @@ using System.Threading.Tasks;
 
 namespace OnlineMarket.Application.Announcements.GetWaitingAnnouncements
 {
-    public sealed record GetWaitingAnnouncementsCommand
+    public sealed record GetWaitingAnnouncementsQuery
         : IRequest<Result<IEnumerable<AnnouncementResponse>>>;
 }

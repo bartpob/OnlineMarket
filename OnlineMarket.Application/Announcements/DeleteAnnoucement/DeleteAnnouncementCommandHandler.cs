@@ -15,9 +15,16 @@ namespace OnlineMarket.Application.Announcements.DeleteAnnoucement
     {
         public async Task<Result> Handle(DeleteAnnouncementCommand request, CancellationToken cancellationToken)
         {
-            if(await _announcementRepository.GetByIdAsync(request.Id) == null)
+            var announcement = await _announcementRepository.GetByIdAsync(request.Id);
+
+            if (announcement == null)
             {
                 return Result.Failure(AnnouncementError.AnnouncementNotExists);
+            }
+
+            if(announcement.User.Id != request.userId.ToString())
+            {
+                return Result.Failure(AnnouncementError.TriedEditForeignAnnouncement);
             }
 
             await _announcementRepository.RemoveAsync(request.Id);
