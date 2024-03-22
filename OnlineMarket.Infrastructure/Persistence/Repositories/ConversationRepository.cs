@@ -16,17 +16,31 @@ namespace OnlineMarket.Infrastructure.Persistence.Repositories
         {
             await _dbContext.Conversations.AddAsync(conversation);
 
+            foreach (var item in conversation.Messages)
+            {
+                _dbContext.Entry(item).State = EntityState.Added;
+            }
+
             await _dbContext.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<Conversation>> GetAllByUserIdAsync(Guid UserId)
         {
-            return await _dbContext.Conversations.Where(c => c.Sender.Id == UserId.ToString() || c.Announcement.User.Id == UserId.ToString()).ToListAsync();
+            return await _dbContext.Conversations
+                .Where(c => c.Sender.Id == UserId.ToString() || c.Announcement.User.Id == UserId.ToString())
+                .Include(c => c.Sender)
+                .Include(c => c.Announcement)
+                .Include(c => c.Messages)
+                .ToListAsync();
         }
 
         public async Task<Conversation> GetByIdAsync(Guid id)
         {
-            return await _dbContext.Conversations.FirstOrDefaultAsync(a => a.Id == id);
+            return await _dbContext.Conversations
+                .Include(c => c.Sender)
+                .Include(c => c.Announcement)
+                .Include(c => c.Messages)
+                .FirstOrDefaultAsync(a => a.Id == id);
         }
 
         public async Task UpdateAsync(Conversation conversation)

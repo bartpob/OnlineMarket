@@ -11,4 +11,6 @@ namespace OnlineMarket.Application.Conversations.StartNewConversation
 {
     public sealed record StartNewConversationCommand(Guid AnnouncementId, Guid SenderId, string Text)
         : IRequest<Result>;
+
+    public sealed record StartNewConversationRequest(Guid AnnouncementId, string Text);
 }

@@ -132,7 +132,7 @@ namespace OnlineMarket.Api.Controllers
 
             if (result.IsFailure)
             {
-                BadRequest(result.Error);
+                return BadRequest(result.Error);
             }
 
             return Ok();
@@ -151,13 +151,14 @@ namespace OnlineMarket.Api.Controllers
 
             if (result.IsFailure)
             {
-                BadRequest(result.Error);
+                return BadRequest(result.Error);
             }
 
             return Ok();
         }
 
-        [HttpPost("Moderator/Verify/Accept/{Id}")]
+        [HttpPost]
+        [Route("Moderator/Verify/Accept/{Id}")]
         [Authorize(Roles=Roles.Moderator)]
         public async Task<ActionResult> AcceptAnnouncement(Guid Id)
         {
