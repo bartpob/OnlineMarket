@@ -41,13 +41,13 @@ namespace OnlineMarket.Api.Controllers
             return Ok(result.Body);
         }
 
-        [HttpPost("SendMessage")]
-        public async Task<ActionResult> SendMessage(SendMessageRequest request)
+        [HttpPost("SendMessage/{Id}")]
+        public async Task<ActionResult> SendMessage(Guid Id, SendMessageRequest request)
         {
             var userId = User.FindFirstValue("uid")!;
 
             var result = await _mediator.Send(new SendMessageCommand(
-                request.ConversationId,
+                Id,
                 Guid.Parse(userId),
                 request.Text
                 ));

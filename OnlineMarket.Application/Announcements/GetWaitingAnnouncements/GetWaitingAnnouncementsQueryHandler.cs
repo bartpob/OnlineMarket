@@ -26,6 +26,7 @@ namespace OnlineMarket.Application.Announcements.GetWaitingAnnouncements
                 a.Id,
                 Guid.Parse(a.User.Id),
                 a.AnnouncementCategory.Name,
+                a.Header,
                 a.Description,
                 a.Price,
                 a.City,

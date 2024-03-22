@@ -11,5 +11,5 @@ namespace OnlineMarket.Application.Conversations.SendMessage
     public sealed record SendMessageCommand(Guid ConversationId, Guid SenderId, string Text)
         : IRequest<Result>;
 
-    public sealed record SendMessageRequest(Guid ConversationId, string Text);
+    public sealed record SendMessageRequest(string Text);
 }

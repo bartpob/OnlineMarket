@@ -12,19 +12,21 @@ namespace OnlineMarket.Domain.Announcements
     public sealed class Announcement
     {
         public Announcement() { }
-        public Announcement(User user, Category category, string description, decimal price, string city)
+        public Announcement(User user, Category category, string header, string description, decimal price, string city)
         {
             User = user;
             Description = description;
             Price = price;
             City = city;
             AnnouncementCategory = category;
+            Header = header;
         }
 
 
         public Guid Id { get; private set; }
         public User User { get; private set; }
         public Category AnnouncementCategory { get; private set; }
+        public string Header { get; private set; }
         public string Description { get; private set; }
         public decimal Price { get; private set; }
         public string City { get; private set; }
@@ -41,8 +43,9 @@ namespace OnlineMarket.Domain.Announcements
             Note = note;    
         }
 
-        public void Update(string description, Category category, decimal price, string city)
+        public void Update(string header, string description, Category category, decimal price, string city)
         {
+            Header = header;
             Description = description;
             Price = price;
             City = city;

@@ -20,7 +20,7 @@ namespace OnlineMarket.Application.Announcements.AddAnnoucement
     {
         public async Task<Result> Handle(AddAnnouncementCommand request, CancellationToken cancellationToken)
         {
-            if(string.IsNullOrEmpty(request.Description) || string.IsNullOrEmpty(request.City) || request.Price <= 0)
+            if(string.IsNullOrEmpty(request.Description) || string.IsNullOrEmpty(request.Header) || string.IsNullOrEmpty(request.City) || request.Price <= 0)
             {
                 return Result.Failure(AnnouncementError.InvalidValue);
             }
@@ -35,6 +35,7 @@ namespace OnlineMarket.Application.Announcements.AddAnnoucement
             await _announcementRepository.AddAsync(new Announcement(
                 await _userRepository.GetById(request.UserId),
                 category,
+                request.Header,
                 request.Description,
                 request.Price,
                 request.City

@@ -24,7 +24,7 @@ namespace OnlineMarket.Application.Conversations.SendMessage
                 return Result.Failure(ConversationErrors.ConversationNotExists);
             }
 
-            if (conversation.Announcement.User.Id != request.SenderId.ToString() || conversation.Sender.Id != request.SenderId.ToString())
+            if (conversation.Announcement.User.Id != request.SenderId.ToString() && conversation.Sender.Id != request.SenderId.ToString())
             {
                 return Result<ConversationResponse>.Failure(ConversationErrors.ForbiddenAccess);
             }

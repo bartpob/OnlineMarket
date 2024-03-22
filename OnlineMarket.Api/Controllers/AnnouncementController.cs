@@ -31,6 +31,7 @@ namespace OnlineMarket.Api.Controllers
             var result = await _mediator.Send(new AddAnnouncementCommand(
                 Guid.Parse(userId),
                 request.CategoryId,
+                request.Header,
                 request.Description,
                 request.price,
                 request.City
@@ -117,14 +118,15 @@ namespace OnlineMarket.Api.Controllers
 
         [HttpPut("{Id}")]
         [Authorize]
-        public async Task<ActionResult> UpdateAnnouncement(EditAnnouncementRequest request)
+        public async Task<ActionResult> UpdateAnnouncement(Guid Id, EditAnnouncementRequest request)
         {
             var userId = User.FindFirstValue("uid")!;
 
             var result = await _mediator.Send(new EditAnnouncementCommand(
-                request.Id,
+                Id,
                 Guid.Parse(userId),
                 request.CategoryId,
+                request.Header,
                 request.Description,
                 request.Price,
                 request.City

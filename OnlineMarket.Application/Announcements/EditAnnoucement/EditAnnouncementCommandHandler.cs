@@ -48,7 +48,7 @@ namespace OnlineMarket.Application.Announcements.EditAnnoucement
                 return Result.Failure(CategoryErrors.CategoryNotExists);
             }
 
-            announcement.Update(request.Description, category, request.Price, request.City);
+            announcement.Update(request.Description, request.Header, category, request.Price, request.City);
 
             await _announcementRepository.UpdateAsync(announcement);
 

@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace OnlineMarket.Application.Announcements.AddAnnoucement
 {
-    public sealed record AddAnnouncementCommand(Guid UserId, Guid CategoryId, string Description, decimal Price, string City)
+    public sealed record AddAnnouncementCommand(Guid UserId, Guid CategoryId, string Header, string Description, decimal Price, string City)
         : IRequest<Result>;
     
-    public sealed record AddAnnouncementRequest(Guid CategoryId, string Description, decimal price, string City);
+    public sealed record AddAnnouncementRequest(Guid CategoryId, string Header, string Description, decimal price, string City);
 }

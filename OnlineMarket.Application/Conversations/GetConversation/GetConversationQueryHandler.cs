@@ -15,7 +15,7 @@ namespace OnlineMarket.Application.Conversations.GetConversation
     {
         public async Task<Result<ConversationResponse>> Handle(GetConversationQuery request, CancellationToken cancellationToken)
         {
-            var conversation = await _conversationRepository.GetByIdAsync(request.ConversationId);
+            var conversation = await _conversationRepository.GetByIdWithMessagesAsync(request.ConversationId);
 
             if(conversation == null)
             {
@@ -43,7 +43,7 @@ namespace OnlineMarket.Application.Conversations.GetConversation
         private IReadOnlyCollection<MessageResponse> ToMessageResponse(IReadOnlyCollection<Message> messages, Guid userId)
         {
             return messages.Select(m => new MessageResponse(
-                m.Sender.Id.Equals(userId) ? true : false,
+                m.Sender.Id == userId.ToString() ? true : false,
                 m.Date,
                 m.Text
                 )).ToList().AsReadOnly();

@@ -40,6 +40,7 @@ namespace OnlineMarket.Application.Announcements.GetUserAnnouncements
                 a.Id,
                 Guid.Parse(a.User.Id),
                 a.AnnouncementCategory.Name,
+                a.Header,
                 a.Description,
                 a.Price,
                 a.City,

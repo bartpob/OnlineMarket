@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OnlineMarket.Infrastructure.Persistence;
 
@@ -11,9 +12,11 @@ using OnlineMarket.Infrastructure.Persistence;
 namespace OnlineMarket.Infrastructure.Migrations
 {
     [DbContext(typeof(OnlineMarketDbContext))]
-    partial class OnlineMarketDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240322132014_AddedHeaderPropertyInAnnouncementEntity")]
+    partial class AddedHeaderPropertyInAnnouncementEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -33,6 +33,7 @@ namespace OnlineMarket.Application.Announcements.GetAnnouncement
                 announcement.Id,
                 Guid.Parse(announcement.User.Id),
                 announcement.AnnouncementCategory.Name,
+                announcement.Header,
                 announcement.Description,
                 announcement.Price,
                 announcement.City,
