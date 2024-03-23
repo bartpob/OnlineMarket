@@ -1,0 +1,53 @@
+﻿@page "/"
+@using OnlineMarket.Infrastructure.Identity.LoginUser
+@using OnlineMarket.UI.Authentication
+@using OnlineMarket.Domain.Abstractions.Result
+@inject IAuthenticationHttpService authHttpService
+<PageTitle>Home</PageTitle>
+
+<h1>Hello, world!</h1>
+
+<div>
+    <EditForm Model="this" OnSubmit="HandleLogin" FormName="Name">
+        <div class="form-group">
+            <label for="email">Email Address</label>
+            <InputText class="form-control" @bind-Value="Email" />
+        </div>
+        <br />
+        <div class="form-group">
+            <label for="email">Password</label>
+            <InputText class="form-control" type="password" @bind-Value="Password" />
+        </div>
+        <br />
+        <button type="submit" class="btn btn-primary btn-block">Login</button>
+    </EditForm>
+</div>
+
+<div>
+    @if(response.IsFailure)
+    {
+    <p>@response.Error.Code</p>
+    }
+    @if(response.IsSucceeded)
+    {
+    <p>@response.Body.Email</p>
+    <p>@response.Body.AuthToken</p>
+    }
+</div>
+
+@code
+{
+    [SupplyParameterFromForm]
+    string? Email { get; set; }
+
+    [SupplyParameterFromForm]
+    string? Password { get; set; }
+    Result<LoginUserResponse> response = Result<LoginUserResponse>.Failure(new Domain.Abstractions.Result.Error("Dupsko", null));
+    string message = string.Empty;
+
+    public async Task HandleLogin()
+    {
+        response = await authHttpService.PostLoginAsync(new LoginUserCommand(Email, Password));
+        
+    }
+}

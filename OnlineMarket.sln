@@ -5,13 +5,17 @@ VisualStudioVersion = 17.8.34525.116
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{F8AA0141-BD7C-40AA-97CF-A81B8255A9EE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineMarket.Domain", "OnlineMarket.Domain\OnlineMarket.Domain.csproj", "{1BB4901E-B916-42B5-A4D2-20BA3600C0B5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineMarket.Domain", "OnlineMarket.Domain\OnlineMarket.Domain.csproj", "{1BB4901E-B916-42B5-A4D2-20BA3600C0B5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineMarket.Application", "OnlineMarket.Application\OnlineMarket.Application.csproj", "{5673A237-0548-4A31-96FA-2234102639D1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineMarket.Application", "OnlineMarket.Application\OnlineMarket.Application.csproj", "{5673A237-0548-4A31-96FA-2234102639D1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineMarket.Infrastructure", "OnlineMarket.Infrastructure\OnlineMarket.Infrastructure.csproj", "{D4A0A5D0-FC46-4C03-B74A-130D9983D0B6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineMarket.Infrastructure", "OnlineMarket.Infrastructure\OnlineMarket.Infrastructure.csproj", "{D4A0A5D0-FC46-4C03-B74A-130D9983D0B6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineMarket.Api", "OnlineMarket.Api\OnlineMarket.Api.csproj", "{CEC8CFAC-B9DF-4157-B9B3-07D82BC47EE1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineMarket.Api", "OnlineMarket.Api\OnlineMarket.Api.csproj", "{CEC8CFAC-B9DF-4157-B9B3-07D82BC47EE1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineMarket.UI", "OnlineMarket.UI\OnlineMarket.UI\OnlineMarket.UI.csproj", "{7C5315F2-B804-4DD0-96C8-146B2E0DF714}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineMarket.UI.Client", "OnlineMarket.UI\OnlineMarket.UI.Client\OnlineMarket.UI.Client.csproj", "{C5B59D96-7F92-4B3F-A919-42E4F61D4D39}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,6 +39,14 @@ Global
 		{CEC8CFAC-B9DF-4157-B9B3-07D82BC47EE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CEC8CFAC-B9DF-4157-B9B3-07D82BC47EE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CEC8CFAC-B9DF-4157-B9B3-07D82BC47EE1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C5315F2-B804-4DD0-96C8-146B2E0DF714}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C5315F2-B804-4DD0-96C8-146B2E0DF714}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C5315F2-B804-4DD0-96C8-146B2E0DF714}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C5315F2-B804-4DD0-96C8-146B2E0DF714}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C5B59D96-7F92-4B3F-A919-42E4F61D4D39}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5B59D96-7F92-4B3F-A919-42E4F61D4D39}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5B59D96-7F92-4B3F-A919-42E4F61D4D39}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5B59D96-7F92-4B3F-A919-42E4F61D4D39}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -44,6 +56,8 @@ Global
 		{5673A237-0548-4A31-96FA-2234102639D1} = {F8AA0141-BD7C-40AA-97CF-A81B8255A9EE}
 		{D4A0A5D0-FC46-4C03-B74A-130D9983D0B6} = {F8AA0141-BD7C-40AA-97CF-A81B8255A9EE}
 		{CEC8CFAC-B9DF-4157-B9B3-07D82BC47EE1} = {F8AA0141-BD7C-40AA-97CF-A81B8255A9EE}
+		{7C5315F2-B804-4DD0-96C8-146B2E0DF714} = {F8AA0141-BD7C-40AA-97CF-A81B8255A9EE}
+		{C5B59D96-7F92-4B3F-A919-42E4F61D4D39} = {F8AA0141-BD7C-40AA-97CF-A81B8255A9EE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C751D84E-7F1F-468B-B35E-5E976856563E}
