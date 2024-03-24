@@ -1,0 +1,12 @@
+﻿@page "/logout"
+@using Microsoft.AspNetCore.Authorization
+@using OnlineMarket.UI.Authentication
+@inject IAuthenticationService authService
+@inject NavigationManager navManager
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        await authService.Logout();
+        navManager.NavigateTo("/");
+    }
+}

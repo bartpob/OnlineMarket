@@ -16,7 +16,7 @@ namespace OnlineMarket.UI.Abstractions
 
         protected async Task AttachBearerToken()
         {
-            var token = await _localStorageService.GetItemAsStringAsync("jwtAccessToken");
+            var token = await _localStorageService.GetItemAsync<string>("accessToken");
             if(token != null)
             {
                 HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);

@@ -1,0 +1,52 @@
+﻿@page "/login"
+@using OnlineMarket.Infrastructure.Identity.LoginUser
+@using OnlineMarket.UI.Authentication
+@inject IAuthenticationService _authService
+@inject NavigationManager _navManager
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <EditForm Model="login" FormName="LoginForm" OnValidSubmit="HandleLogin">
+                <h2 class="text-center mb-4">Login</h2>
+                <div class="mb-3">
+                    <label for="email" class="form-label">E-mail address</label>
+                    <InputText id="email" class="form-control" @bind-Value="login.Email"/>
+                    <ValidationMessage For="@(() => login.Email)" />
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <InputText type="password" id="password" class="form-control" @bind-Value="login.Password"/>
+                    <ValidationMessage For="@(() => login.Password)" />
+                </div>
+                <button type="submit" class="btn btn-dark w-100">Login</button>
+            </EditForm>
+        </div>
+    </div>
+</div>
+
+@code {
+
+    [SupplyParameterFromForm]
+    private LoginModel login { get; set; } = new();
+
+    private string message = string.Empty;
+
+    public async Task HandleLogin()
+    {
+        var result = await _authService.AuthenticateAsync(new LoginUserCommand(login.Email, login.Password));
+
+        if(result.IsSucceeded)
+        {
+            _navManager.NavigateTo("/");
+        }
+
+        message = $"{result.Error.Code}: {result.Error.Description}";
+
+    }
+
+    class LoginModel
+    {
+        public string Email { get; set; } = default!;
+        public string Password { get; set; } = default!;
+    }
+}

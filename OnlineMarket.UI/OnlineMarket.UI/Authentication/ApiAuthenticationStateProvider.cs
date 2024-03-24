@@ -12,7 +12,7 @@ namespace OnlineMarket.UI.Authentication
         {
             var user = new ClaimsPrincipal(new ClaimsIdentity());
 
-            var token = await _localStorage.GetItemAsStringAsync("accessToken");
+            var token = await _localStorage.GetItemAsync<string>("accessToken");
             
             if(token == null)
             {
@@ -54,7 +54,7 @@ namespace OnlineMarket.UI.Authentication
 
         private async Task<List<Claim>> GetClaims()
         {
-            var token = await _localStorage.GetItemAsStringAsync("accessToken");
+            var token = await _localStorage.GetItemAsync<string>("accessToken");
             var tokenContent = _jwtTokenHandler.ReadJwtToken(token);
 
             var claims = tokenContent.Claims.ToList();

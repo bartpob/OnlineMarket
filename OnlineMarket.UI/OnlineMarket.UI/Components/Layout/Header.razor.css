@@ -1,0 +1,29 @@
+﻿.logo{
+    font-family: Pristina;
+    font-weight: bold;
+    font-size: 36px;
+    color: #EAEAE0;
+    padding-left: 10%;
+}
+.logo:focus {
+    font-family: Pristina;
+    font-weight: 800;
+    font-size: 36px;
+    color: #EAEAE0;
+}
+.logo:active {
+    font-family: Pristina;
+    font-weight: bold;
+    font-size: 36px;
+    color: #EAEAE0;
+}
+.logo:hover {
+    font-family: Pristina;
+    font-weight: bold;
+    font-size: 36px;
+    color: #EAEAE0;
+}
+
+.main-bar {
+    background: #1C4670;
+}
