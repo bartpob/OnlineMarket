@@ -1,4 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Components.Authorization
+@using Domain.Users
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
         <a class="navbar-brand logo" href="#">OnlineMarket</a>
@@ -17,7 +18,8 @@
                         </li>
                     </ul>
                 </NotAuthorized>
-                <Authorized>
+            </AuthorizeView>
+            <AuthorizeView Roles=@Roles.RegularUser>
                     <ul class="navbar-nav ms-auto mb-lg-0">
                         <li class="nav-item me-5">
                             <button class="btn btn-primary">Add Announcement</button>
@@ -27,6 +29,20 @@
                         </li>
                         <li class="nav-item">
                             <NavLink class="nav-link active" href="user/announcements">My announcements</NavLink>
+                        </li>
+                        <li class="nav-item">
+                            <NavLink class="nav-link active" href="logout">Logout</NavLink>
+                        </li>
+                    </ul>
+            </AuthorizeView>
+            <AuthorizeView Roles=@Roles.Moderator>
+                <Authorized>
+                    <ul class="navbar-nav ms-auto mb-lg-0">
+                        <li class="nav-item">
+                            <NavLink class="nav-link active" href="moderator/verify">Verify Announcements</NavLink>
+                        </li>
+                        <li class="nav-item">
+                            <NavLink class="nav-link active" href="moderator/categories">Manage Categories</NavLink>
                         </li>
                         <li class="nav-item">
                             <NavLink class="nav-link active" href="logout">Logout</NavLink>

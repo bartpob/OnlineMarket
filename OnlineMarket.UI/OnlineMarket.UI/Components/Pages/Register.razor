@@ -1,6 +1,78 @@
 ﻿@page "/register"
-<h3>Register</h3>
+@inject IAuthenticationHttpService _authService
+@inject NavigationManager _navManager
+@using System.ComponentModel.DataAnnotations
+@using OnlineMarket.Infrastructure.Identity.RegisterUser
+@using OnlineMarket.UI.Authentication
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <EditForm Model="register" FormName="EmailForm" OnValidSubmit="HandleRegister">
+                <DataAnnotationsValidator />
+                <h2 class="text-center mb-4">Register</h2>
+                @if (!string.IsNullOrEmpty(message))
+                {
+                    <div class="alert alert-danger" role="alert">
+                        @message
+                    </div>
+                }
+                <div class="mb-3">
+                    <label for="email" class="form-label">E-mail address</label>
+                    <InputText id="email" class="form-control" @bind-Value="register.Email" />
+                    <ValidationMessage For="@(() => register.Email)" />
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <InputText type="password" id="password" class="form-control" @bind-Value="register.Password" />
+                    <ValidationMessage For="@(() => register.Password)" />
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Confirm Password</label>
+                    <InputText type="password" id="password" class="form-control" @bind-Value="register.ConfirmPassword" />
+                    <ValidationMessage For="@(() => register.ConfirmPassword)" />
+                </div>
+                <button type="submit" class="btn btn-dark w-100">Register</button>
+            </EditForm>
+        </div>
+    </div>
+</div>
 
 @code {
 
+
+    [SupplyParameterFromForm]
+    private RegisterModel register { get; set; } = new();
+
+    private string message = string.Empty;
+
+    private async Task HandleRegister()
+    {
+        var result = await _authService.PostRegisterUserAsync(new RegisterUserCommand(
+            register.Email,
+            register.Password
+        ));
+
+        if(result.IsSucceeded)
+        {
+            _navManager.NavigateTo("/login");
+        }
+
+        message = $"{result.Error.Code}: {result.Error.Description}";
+    }
+    private class RegisterModel
+    {
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; } = default!;
+
+        [Required]
+        [DataType(DataType.Password)]
+        public string Password { get; set; } = default!;
+
+        [Required]
+        [DataType(DataType.Password)]
+        [Compare("Password", ErrorMessage="Passwords do not matches.")]
+        public string ConfirmPassword { get; set; } = default!;
+    }
 }

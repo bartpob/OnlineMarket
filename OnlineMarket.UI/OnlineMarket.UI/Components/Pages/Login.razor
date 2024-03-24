@@ -1,13 +1,21 @@
 ﻿@page "/login"
 @using OnlineMarket.Infrastructure.Identity.LoginUser
 @using OnlineMarket.UI.Authentication
+@using System.ComponentModel.DataAnnotations
 @inject IAuthenticationService _authService
 @inject NavigationManager _navManager
 <div class="container">
     <div class="row">
         <div class="col-md-6 offset-md-3">
             <EditForm Model="login" FormName="LoginForm" OnValidSubmit="HandleLogin">
+                <DataAnnotationsValidator />
                 <h2 class="text-center mb-4">Login</h2>
+                @if(!string.IsNullOrEmpty(message))
+                {
+                    <div class="alert alert-danger" role="alert">
+                        @message
+                    </div>
+                }
                 <div class="mb-3">
                     <label for="email" class="form-label">E-mail address</label>
                     <InputText id="email" class="form-control" @bind-Value="login.Email"/>
@@ -44,9 +52,13 @@
 
     }
 
-    class LoginModel
+    private class LoginModel
     {
+        [Required]
+        [EmailAddress]
         public string Email { get; set; } = default!;
+
+        [Required]
         public string Password { get; set; } = default!;
     }
 }
