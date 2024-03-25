@@ -73,7 +73,7 @@ namespace OnlineMarket.Api.Controllers
             return Ok();
         }
 
-        [HttpDelete]
+        [HttpDelete("{Id}")]
         [Authorize(Roles = Roles.Moderator)]
         public async Task<ActionResult> DeleteCategory(Guid Id)
         {

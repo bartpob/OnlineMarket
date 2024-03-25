@@ -36,8 +36,15 @@ namespace OnlineMarket.Infrastructure.Persistence.Repositories
 
         public async Task RemoveAsync(Guid Id)
         {
-            var category = await _dbContext.Categories.FindAsync(Id);
+            var category = await _dbContext.Categories.Include(c => c.SubCategories).FirstOrDefaultAsync(c => c.Id == Id);
 
+            if (category.SubCategories.Any())
+            {
+                foreach (var cat in category.SubCategories)
+                {
+                    _dbContext.Entry(cat).State = EntityState.Deleted;
+                }
+            }
             _dbContext.Categories.Remove(category!);
 
             await _dbContext.SaveChangesAsync();

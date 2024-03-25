@@ -1,0 +1,62 @@
+﻿@page "/moderator/categories"
+@using OnlineMarket.Application.Categories.AddCategory
+@using OnlineMarket.Application.Categories.GetAllCategories
+@using OnlineMarket.Domain.Users
+@using OnlineMarket.UI.Category
+@using OnlineMarket.UI.Components.Category
+@inject ICategoryHttpService _categoryService
+
+<AuthorizeView Roles="@Roles.Moderator">
+    <Authorized>
+        <EditForm Model="AddValue" Context="AddMainCategory" FormName="AddMainCategory" OnSubmit="HandleAdd">
+            <InputText id="text" class="form-control" @bind-Value="AddValue" />
+            <button type="submit" class="btn btn-dark w-100">Login</button>
+        </EditForm>
+
+        <div class="container">
+            @if (categories != null)
+            {
+                @foreach (var category in categories)
+                {
+                    <CategoryManagement Category="@category" OnCollectionChanged="ReloadCollection"/>
+                }
+            }
+        </div>
+    </Authorized>
+    <NotAuthorized>
+        <RedirectToMainPage />
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    List<CategoryResponse> categories { get; set; }
+
+    [SupplyParameterFromForm]
+    private string AddValue { get; set; } = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadCategories();
+    }
+
+    private async Task HandleAdd()
+    {
+        await _categoryService.PostCategory(new AddCategoryCommand(AddValue));
+        await ReloadCollection();
+    }
+
+    private async Task ReloadCollection()
+    {
+        await LoadCategories();
+    }
+
+    private async Task LoadCategories()
+    {
+        var result = await _categoryService.GetCategories();
+
+        if (result.IsSucceeded)
+        {
+            categories = result.Body!.ToList();
+        }
+    }
+}

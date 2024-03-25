@@ -1,0 +1,18 @@
+﻿@page "/moderator/categories/delete/{Id}"
+@using OnlineMarket.UI.Category
+@inject ICategoryHttpService _categoryService
+@inject NavigationManager _navManager
+@code {
+    [Parameter]
+    public string Id { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        var response = await _categoryService.DeleteCategory(Guid.Parse(Id));
+
+        if(response.IsSucceeded)
+        {
+            _navManager.NavigateTo("moderator/categories");
+        }
+    }
+}

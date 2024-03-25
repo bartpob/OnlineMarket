@@ -21,14 +21,14 @@
             </AuthorizeView>
             <AuthorizeView Roles=@Roles.RegularUser>
                     <ul class="navbar-nav ms-auto mb-lg-0">
-                        <li class="nav-item me-5">
-                            <button class="btn btn-primary">Add Announcement</button>
+                        <li class="nav-item">
+                            <NavLink class="nav-link active ms-5 border border-light rounded" href="user/messages">Add Announcement</NavLink>
                         </li>
                         <li class="nav-item">
                             <NavLink class="nav-link active" href="user/messages">Messages</NavLink>
                         </li>
                         <li class="nav-item">
-                            <NavLink class="nav-link active" href="user/announcements">My announcements</NavLink>
+                            <NavLink class="nav-link active" href="user/announcements">Announcements</NavLink>
                         </li>
                         <li class="nav-item">
                             <NavLink class="nav-link active" href="logout">Logout</NavLink>

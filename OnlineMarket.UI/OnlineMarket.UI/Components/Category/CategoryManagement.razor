@@ -1,0 +1,51 @@
+﻿@using OnlineMarket.Application.Categories.AddSubcategory
+@using OnlineMarket.Application.Categories.EditCategory
+@using OnlineMarket.Application.Categories.GetAllCategories
+@using OnlineMarket.UI.Category
+@inject ICategoryHttpService _categoryService
+<ul>
+    <li>
+        <div class="badge bg-dark m-1">
+            @Category.Name
+            <input type="text" @bind="Name"/>
+            <a class="btn btn-sm btn-success" @onclick="@(() => Add(Category.Id))">Add</a>
+            <a class="btn btn-sm btn-warning" @onclick="@(() => Edit(Category.Id))">Edit</a>
+            <a class="btn btn-sm btn-danger" href="moderator/categories/delete/@Category.Id">Delete</a>
+            <button class="btn bn-sm btn-info" @onclick="@(() => _isCollapsed = !_isCollapsed)">Subcategories</button>
+        </div>
+    </li>
+    @if (!_isCollapsed && Category.SubCategories.Any())
+    {
+        <ul>
+            @foreach (var subCategory in Category.SubCategories)
+            {
+                <li>
+                    <CategoryManagement Category="@subCategory" />
+               </li>
+            }
+        </ul>
+    }
+</ul>
+@code {
+    [Parameter]
+    public CategoryResponse Category { get; set; } = default!;
+
+    [Parameter]
+    public EventCallback OnCollectionChanged { get; set; }
+
+
+    public string Name { get; set; } = string.Empty;
+    private bool _isCollapsed = true;
+
+    private async Task Add(Guid Id)
+    {
+        await _categoryService.PostSubCategory(Id, new AddSubcategoryRequest(Name));
+        await OnCollectionChanged.InvokeAsync();
+    }
+
+    private async Task Edit(Guid Id)
+    {
+        await _categoryService.PutCategory(Id, new UpdateCategoryCommandRequest(Name));
+        await OnCollectionChanged.InvokeAsync();
+    }
+}

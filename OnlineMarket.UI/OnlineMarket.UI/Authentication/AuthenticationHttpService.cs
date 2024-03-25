@@ -21,7 +21,7 @@ namespace OnlineMarket.UI.Authentication
             {
                 string responseBody = await result.Content.ReadAsStringAsync();
 
-                if (result.IsSuccessStatusCode)
+                if (result.IsSuccessStatusCode) 
                 {
                     LoginUserResponse response = JsonConvert.DeserializeObject<LoginUserResponse>(responseBody)!;
 
