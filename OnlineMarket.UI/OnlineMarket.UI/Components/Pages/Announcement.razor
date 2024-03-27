@@ -1,0 +1,46 @@
+﻿@page "/announcement/{Id}"
+
+@using OnlineMarket.Application.Announcements.GetAllAnnouncements
+@using OnlineMarket.UI.Announcements
+
+@inject IAnnouncementHttpService _announcementService
+
+<div class="row">
+    <div class="col-12">
+        <h1>@_announcement.header</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 col-lg-8">
+        <p>@_announcement.Description</p>
+    </div>
+    <div class="col-md-12 col-lg-4">
+        <div class="row">
+            <div class="col-12">
+                <p>Price: @_announcement.Price$</p>
+                <p>City: @_announcement.City</p>
+            </div>
+            <div class="col-12">
+                <a class="btn btn-dark" href="#">Send Message</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@code {
+    [Parameter]
+    public string Id { get; set; } = string.Empty;
+
+    private AnnouncementResponse _announcement = new(Guid.NewGuid(), Guid.NewGuid(), "", "", "", 0, "", Domain.Announcements.AnnouncementStatus.Waiting, null);
+    protected async override Task OnInitializedAsync()
+    {
+        var result = await _announcementService.GetAnnouncement(Guid.Parse(Id));
+
+        if (result.IsSucceeded)
+        {
+            _announcement = result.Body!;
+        }
+    }
+}

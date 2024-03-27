@@ -1,0 +1,44 @@
+﻿@page "/browse/category/{Id}"
+@using OnlineMarket.Application.Categories.GetAllCategories
+@using OnlineMarket.UI.Category
+@using OnlineMarket.UI.Components.Announcement
+@using OnlineMarket.UI.Components.Category
+@inject ICategoryHttpService _categoryService
+
+<div class="row">
+    <div class="col-md-1 col-lg-2">
+        @if (_category.SubCategories.Any())
+        {
+            @foreach (var category in _category.SubCategories)
+            {
+                <MainCategoryLink Category="category" />
+            }
+        }
+        else
+        {
+            <p>No more categories</p>
+        }
+    </div>
+    <div class="col-md-11 col-lg-10">
+        <div class="row">
+            <AnnouncementBrowser Category="@_category" />
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public string Id { get; set; }
+
+    private CategoryResponse _category = new(Guid.NewGuid(), "", new List<CategoryResponse>());
+
+    protected async override Task OnParametersSetAsync()
+    {
+        var result = await _categoryService.GetCategoryById(Guid.Parse(Id));
+
+        if (result.IsSucceeded)
+        {
+            _category = result.Body!;
+        }
+    }
+}

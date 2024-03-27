@@ -1,0 +1,26 @@
+﻿@using OnlineMarket.Application.Announcements.GetAllAnnouncements
+@using OnlineMarket.Application.Categories.GetAllCategories
+@using OnlineMarket.UI.Announcements
+@inject IAnnouncementHttpService _announcementService;
+
+@foreach(var announcement in _announcements)
+{
+    <AnnouncementOverview Announcement="announcement" />
+}
+
+@code {
+    [Parameter]
+    public CategoryResponse Category { get; set; } = new(Guid.NewGuid(), string.Empty, new List<CategoryResponse>());
+
+
+    private IEnumerable<AnnouncementResponse> _announcements = new List<AnnouncementResponse>();
+    protected async override Task OnParametersSetAsync()
+    {
+        var result = await _announcementService.GetAnnouncements();
+
+        if(result.IsSucceeded)
+        {
+            _announcements = result.Body!.Where(a => a.categoryName == Category.Name);
+        }
+    }
+}

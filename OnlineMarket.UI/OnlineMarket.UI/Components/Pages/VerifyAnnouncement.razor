@@ -1,0 +1,57 @@
+﻿@page "/moderator/verify"
+@using OnlineMarket.Application.Announcements.GetAllAnnouncements
+@using OnlineMarket.UI.Announcements
+@inject IAnnouncementHttpService _announcementService
+
+<div class="row">
+    @foreach(var announcement in _announcements)
+    {
+        <div class="col-md-12 col-lg-4">
+            <div class="card">
+                <h1 class="card-header">@announcement.header</h1>
+                <div class="card-body">
+                    <p>@announcement.Price $</p>
+                    <p>@announcement.City</p>
+                    <div class="accordion" id="announcementDescription">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingOne">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                    Description
+                                </button>
+                            </h2>
+                            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#announcementDescription">
+                                <div class="accordion-body">
+                                    <p>@announcement.Description</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="row">
+                            <div class="col-6">
+                                <a class="btn btn-success" href="#">Accept</a>
+                            </div>
+                            <div class="col-6">
+                                <a class="btn btn-danger" href="#">Reject</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    private IEnumerable<AnnouncementResponse> _announcements = new List<AnnouncementResponse>();
+
+    protected async override Task OnInitializedAsync()
+    {
+        var result = await _announcementService.GetWaitingAnnouncements();
+
+        if (result.IsSucceeded)
+        {
+            _announcements = result.Body!;
+        }
+    }
+}

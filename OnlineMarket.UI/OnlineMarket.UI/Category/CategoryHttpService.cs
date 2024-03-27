@@ -55,7 +55,7 @@ namespace OnlineMarket.UI.Category
             }
         }
 
-        public async Task<Result> GetCategoryById(Guid Id)
+        public async Task<Result<CategoryResponse>> GetCategoryById(Guid Id)
         {
             var result = await HttpClient.GetAsync($"Category/{Id}");
 

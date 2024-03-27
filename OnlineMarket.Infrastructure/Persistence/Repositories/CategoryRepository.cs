@@ -56,7 +56,10 @@ namespace OnlineMarket.Infrastructure.Persistence.Repositories
 
             foreach(var item in category.SubCategories)
             {
-                _dbContext.Entry(item).State = EntityState.Added;
+                if ((await GetByIdAsync(item.Id)) == null)
+                {
+                    _dbContext.Entry(item).State = EntityState.Added;
+                }
             }
             await _dbContext.SaveChangesAsync();
         }

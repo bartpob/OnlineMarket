@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
+using OnlineMarket.UI.Announcements;
 using OnlineMarket.UI.Authentication;
 using OnlineMarket.UI.Category;
 using OnlineMarket.UI.Client.Pages;
@@ -26,6 +27,10 @@ builder.Services.AddHttpClient<IAuthenticationHttpService, AuthenticationHttpSer
     client.BaseAddress = new Uri(builder.Configuration["BaseAddress"]!);
 });
 builder.Services.AddHttpClient<ICategoryHttpService, CategoryHttpService>(client =>
+{
+    client.BaseAddress = new Uri(builder.Configuration["BaseAddress"]!);
+});
+builder.Services.AddHttpClient<IAnnouncementHttpService, AnnouncementHttpService>(client =>
 {
     client.BaseAddress = new Uri(builder.Configuration["BaseAddress"]!);
 });

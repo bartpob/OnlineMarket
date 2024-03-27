@@ -1,0 +1,16 @@
+﻿@using OnlineMarket.Application.Announcements.GetAllAnnouncements
+
+<div class="col-md-12 col-lg-3">
+    <div class="card">
+        <h5 class="card-header">
+            @Announcement.header
+        </h5>
+        <p class="card-text">@Announcement.Price</p>
+        <a href="/announcement/@Announcement.Id" class="btn btn-dark">Get Details</a>      
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public AnnouncementResponse Announcement { get; set; } 
+}

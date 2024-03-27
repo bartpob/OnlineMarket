@@ -12,7 +12,7 @@ namespace OnlineMarket.UI.Category
         public Task<Result> PostCategory(AddCategoryCommand request);
         public Task<Result> PostSubCategory(Guid Id, AddSubcategoryRequest request);
         public Task<Result> DeleteCategory(Guid Id);
-        public Task<Result> GetCategoryById(Guid Id);
+        public Task<Result<CategoryResponse>> GetCategoryById(Guid Id);
         public Task<Result> PutCategory(Guid Id, UpdateCategoryCommandRequest request);
     }
 }
