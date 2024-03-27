@@ -1,0 +1,24 @@
+﻿@using OnlineMarket.Application.Categories.GetAllCategories
+@using OnlineMarket.UI.Category
+@inject ICategoryHttpService _categoryService;
+
+<div class="row">
+    @foreach(var category in _categories)
+    {
+        <MainCategoryLink Category="category" />
+    }
+</div>
+
+@code {
+    private List<CategoryResponse> _categories = new();
+
+    protected async override Task OnInitializedAsync()
+    {
+        var result = await _categoryService.GetCategories();
+
+        if(result.IsSucceeded)
+        {
+            _categories = result.Body!.ToList();
+        }
+    }
+}

@@ -1,0 +1,14 @@
+﻿@using OnlineMarket.Application.Categories.GetAllCategories
+
+<div class="col-md-12 col-lg-4">
+    <div class="p-4">
+        <a class="btn btn-outline-dark text-center align-content-center w-100" style="height:50px" href="/browse/category/@Category.Id">
+         @Category.Name
+        </a>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public CategoryResponse Category { get; set; }
+}

@@ -26,7 +26,7 @@ namespace OnlineMarket.Infrastructure.Persistence.Repositories
 
         public async Task<Category?> GetByIdAsync(Guid Id)
         {
-            return await _dbContext.Categories.FirstOrDefaultAsync(c => c.Id == Id);
+            return await _dbContext.Categories.Include(c => c.SubCategories).FirstOrDefaultAsync(c => c.Id == Id);
         }
 
         public async Task<Category?> GetByNameAsync(string Name)
