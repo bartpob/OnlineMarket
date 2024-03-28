@@ -1,0 +1,45 @@
+﻿@using OnlineMarket.Application.Conversations.GetConversation
+@using OnlineMarket.UI.Announcements
+@inject IAnnouncementHttpService _announcementService
+
+<div class="col-12">
+   <div class="card">
+       <div class="card-header">
+           <h3>@_header</h3>
+       </div>
+       <div class="card-body">
+           <div class="row">
+               <div class="col-10">
+                   @_lastMessage.Text
+               </div>
+               <div class="col-2">
+                   <div class="row">
+                       <div class="alert alert-success">
+                           <p>@_lastMessage.MessageDate.ToString("dd.MM.yyyy hh:mm")</p>
+                       </div>
+                   </div>
+                   <div class="row">
+                       <a class="btn btn-dark" href="/conversation/@Conversation.ConversationId">Show conversation</a>
+                   </div>
+               </div>
+           </div>
+       </div>
+   </div>
+</div>
+@code {
+    [Parameter]
+    public ConversationResponse Conversation { get; set; } = new(Guid.NewGuid(), Guid.NewGuid(), new List<MessageResponse>());
+
+    private string _header = string.Empty;
+    private MessageResponse _lastMessage = new(false, DateTime.Now, string.Empty);
+    protected async override Task OnInitializedAsync()
+    {
+        _lastMessage = Conversation.Messages.OrderByDescending(m => m.MessageDate).FirstOrDefault()!;
+        var result = await _announcementService.GetAnnouncement(Conversation.AnnouncementId);
+
+        if(result.IsSucceeded)
+        {
+            _header = result.Body!.header;
+        }
+    }
+}

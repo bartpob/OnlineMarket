@@ -1,4 +1,35 @@
-﻿
-@code {
+﻿@page "/user/messages"
+@using OnlineMarket.Application.Conversations.GetConversation
+@using OnlineMarket.UI.Components.Conversation
+@using OnlineMarket.UI.Conversations
+@inject IConversationHttpService _conversationService
 
+<div class="row">
+    @if(_conversations.Any())
+    {
+        @foreach(var conversation in _conversations)
+        {
+            <ConversationOverview Conversation="conversation"/>
+        }
+    }
+    else
+    {
+        <div class="alert-warning">
+            <p>You don't have any conversations</p>
+        </div>
+    }
+</div>
+
+@code {
+    private List<ConversationResponse> _conversations = new();
+
+    protected async override Task OnInitializedAsync()
+    {
+        var result = await _conversationService.GetConversations();
+
+        if(result.IsSucceeded)
+        {
+            _conversations = result.Body!.ToList();
+        }
+    }
 }

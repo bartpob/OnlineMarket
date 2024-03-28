@@ -1,0 +1,74 @@
+﻿@page "/conversation/{Id}"
+
+@using OnlineMarket.Application.Conversations.GetConversation
+@using OnlineMarket.Application.Conversations.SendMessage
+@using OnlineMarket.UI.Conversations
+
+@inject IConversationHttpService _conversationService
+@inject NavigationManager _navManager
+@foreach(var message in _conversation.Messages.OrderBy(m => m.MessageDate))
+{
+    <div class="row bg-light">
+        <div class="col-12 p-2">
+            @if (message.Outgoing)
+            {
+            <div class="card float-end">
+                <div class="card-header">
+                    @message.MessageDate.ToString("dd.MM.yyyy hh:mm")
+                </div>
+                <div class="card-body">
+                    <p>@message.Text</p>
+                </div>
+            </div>
+            }
+            else
+            {
+                <div class="card float-start">
+                    <div class="card-header">
+                        @message.MessageDate.ToString("dd.MM.yyyy hh:mm")
+                    </div>
+                    <div class="card-body">
+                        <p>@message.Text</p>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+}
+<div class="row bg-light">
+    <input type="text" @bind="_text" class="col-10"/>
+    <button class="btn btn-dark col-2" @onclick="SendMessage">Send message</button>
+</div>
+
+@code {
+    [Parameter]
+    public string Id { get; set; } = string.Empty;
+
+
+    private string _text = string.Empty;
+    private ConversationResponse _conversation = new(Guid.NewGuid(), Guid.NewGuid(), new List<MessageResponse>());
+
+    protected async override Task OnInitializedAsync()
+    {
+        await LoadMessages();
+    }
+
+    private async Task SendMessage()
+    {
+        if(!string.IsNullOrEmpty(_text))
+        {
+            var result = await _conversationService.SendMessage(_conversation.ConversationId, new SendMessageRequest(_text));
+            await LoadMessages();
+        }
+    }
+
+    private async Task LoadMessages()
+    {
+        var result = await _conversationService.GetConversation(Guid.Parse(Id));
+
+        if (result.IsSucceeded)
+        {
+            _conversation = result.Body!;
+        }
+    }
+}

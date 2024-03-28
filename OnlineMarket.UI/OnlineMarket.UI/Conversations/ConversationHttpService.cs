@@ -61,7 +61,7 @@ namespace OnlineMarket.UI.Conversations
         {
             await AttachBearerToken();
 
-            var result = await HttpClient.PutAsJsonAsync<SendMessageRequest>($"Conversation/SendMessage/{Id}", request);
+            var result = await HttpClient.PostAsJsonAsync<SendMessageRequest>($"Conversation/SendMessage/{Id}", request);
 
             if (result.IsSuccessStatusCode)
             {
@@ -80,7 +80,7 @@ namespace OnlineMarket.UI.Conversations
         {
             await AttachBearerToken();
 
-            var result = await HttpClient.PutAsJsonAsync<StartNewConversationRequest>($"Conversation/StartConversation", request);
+            var result = await HttpClient.PostAsJsonAsync<StartNewConversationRequest>($"Conversation/StartConversation", request);
 
             if (result.IsSuccessStatusCode)
             {

@@ -22,7 +22,7 @@ namespace OnlineMarket.Application.Conversations.GetConversation
                 return Result<ConversationResponse>.Failure(ConversationErrors.ConversationNotExists);
             }
 
-            if(conversation.Announcement.User.Id != request.UserId.ToString() || conversation.Sender.Id != request.UserId.ToString())
+            if(conversation.Announcement.User.Id != request.UserId.ToString() && conversation.Sender.Id != request.UserId.ToString())
             {
                 return Result<ConversationResponse>.Failure(ConversationErrors.ForbiddenAccess);
             }
