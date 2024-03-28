@@ -21,7 +21,7 @@ namespace OnlineMarket.UI.Announcements
         {
             await AttachBearerToken();
 
-            var result = await HttpClient.PostAsync($"Announcement/Moderator/Accept/{Id}", null);
+            var result = await HttpClient.PostAsync($"Announcement/Moderator/Verify/Accept/{Id}", null);
 
             if (result.IsSuccessStatusCode)
             {
@@ -129,6 +129,7 @@ namespace OnlineMarket.UI.Announcements
 
         public async Task<Result<IEnumerable<AnnouncementResponse>>> GetUserAnnouncements()
         {
+            await AttachBearerToken();
             var result = await HttpClient.GetAsync("Announcement/User/");
 
             string responseBody = await result.Content.ReadAsStringAsync();
@@ -146,7 +147,8 @@ namespace OnlineMarket.UI.Announcements
 
         public async Task<Result<IEnumerable<AnnouncementResponse>>> GetWaitingAnnouncements()
         {
-            var result = await HttpClient.GetAsync("Announcement/Moderator/Waiting");
+            await AttachBearerToken();
+            var result = await HttpClient.GetAsync("Announcement/Moderator/Waiting/");
 
             string responseBody = await result.Content.ReadAsStringAsync();
             if (result.IsSuccessStatusCode)
@@ -165,7 +167,7 @@ namespace OnlineMarket.UI.Announcements
         {
             await AttachBearerToken();
 
-            var result = await HttpClient.PostAsJsonAsync<RejectAnnouncementRequest>($"Announcement/Moderator/Reject/{Id}", new RejectAnnouncementRequest(null));
+            var result = await HttpClient.PostAsJsonAsync<RejectAnnouncementRequest>($"Announcement/Moderator/Verify/Reject/{Id}", new RejectAnnouncementRequest(null));
 
             if (result.IsSuccessStatusCode)
             {

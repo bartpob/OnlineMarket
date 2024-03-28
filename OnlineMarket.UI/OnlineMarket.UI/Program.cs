@@ -10,6 +10,7 @@ using OnlineMarket.UI.Authentication;
 using OnlineMarket.UI.Category;
 using OnlineMarket.UI.Client.Pages;
 using OnlineMarket.UI.Components;
+using OnlineMarket.UI.Conversations;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 
@@ -22,18 +23,27 @@ builder.Services.AddRazorComponents()
 
 builder.Services.AddBlazoredLocalStorage();
 builder.Services.AddCascadingAuthenticationState();
+
 builder.Services.AddHttpClient<IAuthenticationHttpService, AuthenticationHttpService>(client =>
 {
     client.BaseAddress = new Uri(builder.Configuration["BaseAddress"]!);
 });
+
 builder.Services.AddHttpClient<ICategoryHttpService, CategoryHttpService>(client =>
 {
     client.BaseAddress = new Uri(builder.Configuration["BaseAddress"]!);
 });
+
 builder.Services.AddHttpClient<IAnnouncementHttpService, AnnouncementHttpService>(client =>
 {
     client.BaseAddress = new Uri(builder.Configuration["BaseAddress"]!);
 });
+
+builder.Services.AddHttpClient<IConversationHttpService, ConversationHttpService>(client =>
+{
+    client.BaseAddress = new Uri(builder.Configuration["BaseAddress"]!);
+});
+
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 builder.Services.AddScoped<JwtSecurityTokenHandler>();
 builder.Services.AddScoped<AuthenticationStateProvider, ApiAuthenticationStateProvider>();

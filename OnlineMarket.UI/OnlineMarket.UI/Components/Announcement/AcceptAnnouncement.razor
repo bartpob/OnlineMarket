@@ -1,0 +1,12 @@
+﻿@page "/moderator/verify/accept/{Id}"
+@using OnlineMarket.UI.Announcements
+@inject IAnnouncementHttpService _announcementService
+@code {
+    [Parameter]
+    public string Id { get; set; } = string.Empty;
+
+    protected async override Task OnInitializedAsync()
+    {
+        await _announcementService.AcceptAnnouncement(Guid.Parse(Id));
+    }
+}

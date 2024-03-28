@@ -1,0 +1,18 @@
+﻿@page "/moderator/verify/reject/{Id}"
+@using OnlineMarket.UI.Announcements
+@inject IAnnouncementHttpService _announcementService
+@inject NavigationManager _navManager
+@code {
+    [Parameter]
+    public string Id { get; set; } = string.Empty;
+
+    protected async override Task OnInitializedAsync()
+    {
+        var result = await _announcementService.RejectAnnouncement(Guid.Parse(Id));
+
+        if(result.IsSucceeded)
+        {
+            _navManager.NavigateTo("/moderator/verify");
+        }
+    }
+}

@@ -1,10 +1,10 @@
-﻿@page "/moderator/verify"
+﻿@page "/user/announcements"
 @using OnlineMarket.Application.Announcements.GetAllAnnouncements
+@using OnlineMarket.Domain.Announcements
 @using OnlineMarket.UI.Announcements
 @inject IAnnouncementHttpService _announcementService
-
 <div class="row">
-    @foreach(var announcement in _announcements)
+    @foreach (var announcement in _announcements)
     {
         <div class="col-md-12 col-lg-4">
             <div class="card">
@@ -15,11 +15,11 @@
                     <div class="accordion" id="announcementDescription">
                         <div class="accordion-item">
                             <h2 class="accordion-header" id="headingOne">
-                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#@announcement.Id" aria-expanded="false" aria-controls="@announcement.Id">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#@("c" + announcement.Id)" aria-expanded="false" aria-controls="@announcement.Id">
                                     Description
                                 </button>
                             </h2>
-                            <div id="@announcement.Id" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#announcementDescription">
+                            <div id="@("c" + announcement.Id)" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#announcementDescription">
                                 <div class="accordion-body">
                                     <p>@announcement.Description</p>
                                 </div>
@@ -29,10 +29,24 @@
                     <div class="card-footer">
                         <div class="row">
                             <div class="col-6">
-                                <a class="btn btn-success" href="/moderator/verify/accept/{@announcement.Id}">Accept</a>
-                            </div>
-                            <div class="col-6">
-                                <a class="btn btn-danger" href="/moderator/verify/reject/{@announcement.Id}">Reject</a>
+                                @if(announcement.Status == AnnouncementStatus.Waiting)
+                                {
+                                    <div class="alert-info alert-warning">
+                                        <p>Waiting</p>
+                                    </div>
+                                }
+                                @if (announcement.Status == AnnouncementStatus.Rejected)
+                                {
+                                    <div class="alert-info alert-danger">
+                                        <p>Rejected</p>
+                                    </div>
+                                }
+                                @if (announcement.Status == AnnouncementStatus.Accepted)
+                                {
+                                    <div class="alert-info alert-success">
+                                        <p>Accepted</p>
+                                    </div>
+                                }
                             </div>
                         </div>
                     </div>
@@ -47,7 +61,7 @@
 
     protected async override Task OnInitializedAsync()
     {
-        var result = await _announcementService.GetWaitingAnnouncements();
+        var result = await _announcementService.GetUserAnnouncements();
 
         if (result.IsSucceeded)
         {

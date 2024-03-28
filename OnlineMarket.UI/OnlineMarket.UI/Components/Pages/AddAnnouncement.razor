@@ -1,9 +1,134 @@
 ﻿@page "/announcements/add"
+@using System.ComponentModel.DataAnnotations
+@using OnlineMarket.Application.Announcements.AddAnnoucement
+@using OnlineMarket.Application.Categories.GetAllCategories
+@using OnlineMarket.Domain.Users
+@using OnlineMarket.UI.Announcements
+@using OnlineMarket.UI.Category
 
-<div class="container">
-   
-</div>
+@inject IAnnouncementHttpService _announcementService
+@inject ICategoryHttpService _categoryService
+@inject NavigationManager _navManager
+<AuthorizeView Roles="@Roles.RegularUser">
+    <Authorized Context="AddAnnouncement">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 offset-md-3">
+                    <EditForm Model="announcement" FormName="AnnouncementForm" OnValidSubmit="HandleAddAnnouncement">
+                        <DataAnnotationsValidator />
+                        <h2 class="text-center mb-4">Add Announcement</h2>
+                        @if (!string.IsNullOrEmpty(message))
+                        {
+                            <div class="alert alert-danger" role="alert">
+                                @message
+                            </div>
+                        }
+                        <div class="mb-3">
+                            <label for="title" class="form-label">Title</label>
+                            <InputText id="title" class="form-control" @bind-Value="announcement.Title" />
+                            <ValidationMessage For="@(() => announcement.Title)" />
+                        </div>
+                        <div class="mb-3">
+                            <label for="cat" class="form-label">Category</label>
+                            <InputSelect id="cat" class="form-control" @bind-Value="announcement.CategoryId">
+                                @foreach(var cat in FlatCategories())
+                                {
+                                    <option value="@cat.Id">@cat.Name</option>
+                                }
+                            </InputSelect>
+                            <ValidationMessage For="@(() => announcement.CategoryId)" />
+                        </div>
+                        <div class="mb-3">
+                            <div class="row">
+                                <div class="col-6">
+                                    <label for="city" class="form-label">City</label>
+                                    <InputText id="city" class="form-control" @bind-Value="announcement.City" />
+                                    <ValidationMessage For="@(() => announcement.City)" />
+                                </div>
+                                <div class="col-6">
+                                    <label for="price" class="form-label">Price</label>
+                                    <InputNumber  id="price" class="form-control" @bind-Value="announcement.Price" @bind-Value:format="F2" />
+                                    <ValidationMessage For="@(() => announcement.Price)" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Description</label>
+                            <InputTextArea id="description" style="height:200px" class="form-control" @bind-Value="announcement.Description"/>
+                            <ValidationMessage For="@(() => announcement.Description)" />
+                        </div>
+
+                        <button type="submit" class="btn btn-dark w-100">Confirm</button>
+
+                    </EditForm>
+                </div>
+            </div>
+        </div>
+    </Authorized>
+    <NotAuthorized>
+        <RedirectToMainPage />
+    </NotAuthorized>
+</AuthorizeView>
 
 @code {
+    [SupplyParameterFromForm]
+    private Announcement announcement { get; set; } = new();
 
+    private string message { get; set; } = string.Empty;
+
+    private IEnumerable<CategoryResponse> _categories = new List<CategoryResponse>();
+
+    protected async override Task OnInitializedAsync()
+    {
+        var result = await _categoryService.GetCategories();
+
+        if (result.IsSucceeded)
+        {
+            _categories = result.Body!.ToList();
+        }
+    }
+
+    private List<CategoryResponse> FlatCategories()
+    {
+        return _categories.SelectMany(c => c.GetAllCategories()).ToList();
+    }
+
+    private async Task HandleAddAnnouncement()
+    {
+        var result = await _announcementService.AddAnnouncement(new AddAnnouncementRequest(
+            Guid.Parse(announcement.CategoryId),
+            announcement.Title,
+            announcement.Description,
+            announcement.Price,
+            announcement.City
+        ));
+
+        if(result.IsSucceeded)
+        {
+            _navManager.NavigateTo("/");
+        }
+        else
+        {
+            message = $"{result.Error.Code}: {result.Error.Description}";
+        }
+    }
+
+    private class Announcement
+    {
+        [Required]
+        public string Title { get; set; }
+
+        [Required]
+        public string CategoryId {get; set;}
+
+        [Required]
+        public string Description { get; set; }
+
+        [Required]
+        [Range(0, 99999999999.99)]
+        public decimal Price { get; set; }
+
+        [Required]
+        public string City { get; set; }
+    }
 }
