@@ -2,28 +2,20 @@
 
 @using OnlineMarket.Application.Conversations.GetConversation
 @using OnlineMarket.Application.Conversations.SendMessage
+@using OnlineMarket.Domain.Users
 @using OnlineMarket.UI.Conversations
 
 @inject IConversationHttpService _conversationService
 @inject NavigationManager _navManager
-@foreach(var message in _conversation.Messages.OrderBy(m => m.MessageDate))
-{
-    <div class="row bg-light">
-        <div class="col-12 p-2">
-            @if (message.Outgoing)
-            {
-            <div class="card float-end">
-                <div class="card-header">
-                    @message.MessageDate.ToString("dd.MM.yyyy hh:mm")
-                </div>
-                <div class="card-body">
-                    <p>@message.Text</p>
-                </div>
-            </div>
-            }
-            else
-            {
-                <div class="card float-start">
+<AuthorizeView Roles="@Roles.RegularUser">
+    <Authorized>
+    @foreach(var message in _conversation.Messages.OrderBy(m => m.MessageDate))
+    {
+        <div class="row bg-light">
+            <div class="col-12 p-2">
+                @if (message.Outgoing)
+                {
+                <div class="card float-end">
                     <div class="card-header">
                         @message.MessageDate.ToString("dd.MM.yyyy hh:mm")
                     </div>
@@ -31,15 +23,30 @@
                         <p>@message.Text</p>
                     </div>
                 </div>
-            }
+                }
+                else
+                {
+                    <div class="card float-start">
+                        <div class="card-header">
+                            @message.MessageDate.ToString("dd.MM.yyyy hh:mm")
+                        </div>
+                        <div class="card-body">
+                            <p>@message.Text</p>
+                        </div>
+                    </div>
+                }
+            </div>
         </div>
+    }
+    <div class="row bg-light">
+        <input type="text" @bind="_text" class="col-10"/>
+        <button class="btn btn-dark col-2" @onclick="SendMessage">Send message</button>
     </div>
-}
-<div class="row bg-light">
-    <input type="text" @bind="_text" class="col-10"/>
-    <button class="btn btn-dark col-2" @onclick="SendMessage">Send message</button>
-</div>
-
+    </Authorized>
+    <NotAuthorized>
+        <RedirectToMainPage />
+    </NotAuthorized>
+</AuthorizeView>
 @code {
     [Parameter]
     public string Id { get; set; } = string.Empty;

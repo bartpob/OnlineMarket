@@ -1,10 +1,16 @@
 ﻿@page "/announcement/{Id}"
 
 @using OnlineMarket.Application.Announcements.GetAllAnnouncements
+@using OnlineMarket.Application.Conversations.GetConversation
+@using OnlineMarket.Application.Conversations.SendMessage
+@using OnlineMarket.Application.Conversations.StartNewConversation
+@using OnlineMarket.Domain.Users
 @using OnlineMarket.UI.Announcements
+@using OnlineMarket.UI.Conversations
 
 @inject IAnnouncementHttpService _announcementService
-
+@inject IConversationHttpService _conversationService
+@inject NavigationManager _navManager
 <div class="row">
     <div class="col-12">
         <h1>@_announcement.header</h1>
@@ -20,9 +26,18 @@
                 <p>Price: @_announcement.Price$</p>
                 <p>City: @_announcement.City</p>
             </div>
-            <div class="col-12">
-                <a class="btn btn-dark" href="#">Send Message</a>
-            </div>
+            <AuthorizeView Roles="@Roles.RegularUser">
+                <Authorized>
+                <div class="col-12">
+                    <button class="btn btn-dark" onclick="@ContactClicked">Contact</button>
+                    @if(_messageClicked)
+                    {
+                        <input type="text" @bind="_text" class="col-10" />
+                        <button class="btn btn-dark col-2" @onclick="SendMessage">Send message</button>
+                    }
+                </div>
+                </Authorized>
+            </AuthorizeView>
         </div>
     </div>
 </div>
@@ -33,14 +48,49 @@
     [Parameter]
     public string Id { get; set; } = string.Empty;
 
+    private bool _messageClicked = false;
+    private string _text = string.Empty;
     private AnnouncementResponse _announcement = new(Guid.NewGuid(), Guid.NewGuid(), "", "", "", 0, "", Domain.Announcements.AnnouncementStatus.Waiting, null);
+    private ConversationResponse _conversation = new ConversationResponse(Guid.NewGuid(), Guid.NewGuid(), new List<MessageResponse>());
     protected async override Task OnInitializedAsync()
     {
         var result = await _announcementService.GetAnnouncement(Guid.Parse(Id));
-
+        var conv = await _conversationService.GetConversations();
+        if (conv.IsSucceeded)
+        {
+            _conversation = conv.Body!.FirstOrDefault(c => c.AnnouncementId == Guid.Parse(Id))!;
+        }
         if (result.IsSucceeded)
         {
             _announcement = result.Body!;
+        }
+    }
+
+    private async Task SendMessage()
+    {
+        if (!string.IsNullOrEmpty(_text))
+        {
+            var result = await _conversationService.StartConversation(new StartNewConversationRequest(Guid.Parse(Id), _text));
+
+        }
+    }
+
+    private void ContactClicked()
+    {
+        if (!_messageClicked)
+        {
+            if (_conversation != null)
+            {
+                _navManager.NavigateTo($"/conversation/{_conversation.ConversationId}");
+            }
+            else
+            {
+                _messageClicked = true;
+            }
+        }
+        else
+        {
+            _messageClicked = !_messageClicked;
         }
     }
 }

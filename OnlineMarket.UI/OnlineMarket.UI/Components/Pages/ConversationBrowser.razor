@@ -1,25 +1,31 @@
 ﻿@page "/user/messages"
 @using OnlineMarket.Application.Conversations.GetConversation
+@using OnlineMarket.Domain.Users
 @using OnlineMarket.UI.Components.Conversation
 @using OnlineMarket.UI.Conversations
 @inject IConversationHttpService _conversationService
-
-<div class="row">
-    @if(_conversations.Any())
-    {
-        @foreach(var conversation in _conversations)
-        {
-            <ConversationOverview Conversation="conversation"/>
-        }
-    }
-    else
-    {
-        <div class="alert-warning">
-            <p>You don't have any conversations</p>
+<AuthorizeView Roles="@Roles.RegularUser">
+    <Authorized>
+        <div class="row">
+            @if(_conversations.Any())
+            {
+                @foreach(var conversation in _conversations)
+                {
+                    <ConversationOverview Conversation="conversation"/>
+                }
+            }
+            else
+            {
+                <div class="alert-warning">
+                    <p>You don't have any conversations</p>
+                </div>
+            }
         </div>
-    }
-</div>
-
+    </Authorized>
+    <NotAuthorized>
+        <RedirectToMainPage />
+    </NotAuthorized>
+</AuthorizeView>
 @code {
     private List<ConversationResponse> _conversations = new();
 
